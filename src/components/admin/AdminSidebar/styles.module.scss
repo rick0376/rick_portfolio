@@ -1,0 +1,227 @@
+// src/components/admin/AdminSidebar/styles.module.scss
+
+.sidebar {
+    position: fixed;
+    z-index: 40;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    width: 270px;
+    padding: 22px 17px;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    background: #07101d;
+    flex-direction: column;
+}
+
+.brandArea {
+    display: flex;
+    min-height: 59px;
+    padding: 0 5px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo {
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(78, 225, 255, 0.22);
+    border-radius: 14px;
+    background: #030914;
+    box-shadow: 0 12px 28px rgba(0, 105, 231, 0.2);
+    overflow: hidden;
+    flex: none;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1.42);
+    }
+}
+
+.brandText {
+    display: grid;
+    gap: 4px;
+
+    strong {
+        color: #ffffff;
+        font-family: var(--font-space), sans-serif;
+        font-size: 16px;
+    }
+
+    small {
+        color: #71839a;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.7px;
+        text-transform: uppercase;
+    }
+}
+
+.closeButton {
+    display: none;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.04);
+    color: #ffffff;
+    cursor: pointer;
+    place-items: center;
+}
+
+.navigation {
+    display: grid;
+    margin-top: 44px;
+    gap: 7px;
+
+    a {
+        display: flex;
+        min-height: 48px;
+        padding: 0 14px;
+        border: 1px solid transparent;
+        border-radius: 12px;
+        color: #8fa0b5;
+        align-items: center;
+        gap: 12px;
+        font-size: 13px;
+        font-weight: 700;
+        transition:
+            color 180ms ease,
+            border-color 180ms ease,
+            background 180ms ease;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.04);
+            color: #ffffff;
+        }
+    }
+
+    .active {
+        border-color: rgba(21, 149, 255, 0.24);
+        background: rgba(21, 149, 255, 0.11);
+        color: #ffffff;
+
+        svg {
+            color: #4ee1ff;
+        }
+    }
+}
+
+.menuTitle {
+    margin: 0 13px 8px;
+    color: #52657d;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+}
+
+.sidebarFooter {
+    display: grid;
+    margin-top: auto;
+    gap: 13px;
+}
+
+.statusCard {
+    display: flex;
+    padding: 14px;
+    border: 1px solid rgba(78, 225, 255, 0.12);
+    border-radius: 14px;
+    background: rgba(21, 149, 255, 0.06);
+    align-items: center;
+    gap: 11px;
+
+    >div {
+        display: grid;
+        gap: 3px;
+    }
+
+    strong {
+        color: #dce9f8;
+        font-size: 12px;
+    }
+
+    small {
+        color: #6f8299;
+        font-size: 10px;
+    }
+}
+
+.statusIcon {
+    display: grid;
+    width: 39px;
+    height: 39px;
+    border-radius: 11px;
+    background: rgba(21, 149, 255, 0.12);
+    color: #4ee1ff;
+    flex: none;
+    place-items: center;
+}
+
+.logoutButton {
+    display: flex;
+    width: 100%;
+    min-height: 46px;
+    padding: 0 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.035);
+    color: #91a2b7;
+    cursor: pointer;
+    align-items: center;
+    gap: 11px;
+    font-size: 12px;
+    font-weight: 750;
+
+    &:hover {
+        border-color: rgba(255, 94, 94, 0.2);
+        background: rgba(255, 94, 94, 0.07);
+        color: #ffaaaa;
+    }
+}
+
+.backdrop {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .sidebar {
+        width: min(86vw, 290px);
+        box-shadow: 25px 0 70px rgba(0, 0, 0, 0.4);
+        transform: translateX(-105%);
+        transition: transform 220ms ease;
+    }
+
+    .sidebarOpen {
+        transform: translateX(0);
+    }
+
+    .closeButton {
+        display: grid;
+    }
+
+    .backdrop {
+        position: fixed;
+        z-index: 35;
+        inset: 0;
+        display: block;
+        border: 0;
+        background: rgba(0, 5, 12, 0.66);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 220ms ease;
+        backdrop-filter: blur(4px);
+    }
+
+    .backdropVisible {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}

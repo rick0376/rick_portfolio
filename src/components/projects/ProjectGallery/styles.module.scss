@@ -1,0 +1,125 @@
+// src/components/projects/ProjectGallery/styles.module.scss
+
+.gallery {
+    display: grid;
+    gap: 16px;
+}
+
+.mainImage {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 1px solid #dfe7f1;
+    border-radius: 18px;
+    background: #07152c;
+    box-shadow: 0 24px 65px rgba(16, 38, 69, 0.13);
+
+    img {
+        object-fit: contain;
+    }
+}
+
+.thumbnails {
+    display: grid;
+    padding: 4px 2px 8px;
+    overflow-x: auto;
+    grid-auto-columns: 126px;
+    grid-auto-flow: column;
+    gap: 11px;
+
+    button {
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: 16 / 10;
+        border: 2px solid transparent;
+        border-radius: 11px;
+        background: #0a172b;
+        cursor: pointer;
+        opacity: 0.68;
+        transition:
+            border-color 180ms ease,
+            opacity 180ms ease,
+            transform 180ms ease;
+
+        &:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+
+        img {
+            object-fit: cover;
+        }
+
+        span {
+            position: absolute;
+            z-index: 2;
+            right: 6px;
+            bottom: 6px;
+            display: grid;
+            width: 21px;
+            height: 21px;
+            border-radius: 6px;
+            color: #ffffff;
+            background: rgba(3, 10, 22, 0.76);
+            font-size: 10px;
+            font-weight: 800;
+            place-items: center;
+        }
+    }
+
+    .active {
+        border-color: #297cff;
+        box-shadow: 0 6px 18px rgba(27, 101, 255, 0.24);
+        opacity: 1;
+    }
+}
+
+.empty {
+    display: flex;
+    min-height: 390px;
+    padding: 35px;
+    border: 1px dashed #c8d5e5;
+    border-radius: 18px;
+    color: #66778d;
+    background: #f5f8fc;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+
+    >span {
+        display: grid;
+        width: 68px;
+        height: 68px;
+        margin-bottom: 18px;
+        border-radius: 18px;
+        color: #2c7cff;
+        background: #e4efff;
+        place-items: center;
+    }
+
+    strong {
+        color: #0a172b;
+        font-size: 20px;
+    }
+
+    p {
+        margin: 8px 0 0;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 680px) {
+    .mainImage {
+        border-radius: 13px;
+    }
+
+    .thumbnails {
+        grid-auto-columns: 100px;
+    }
+
+    .empty {
+        min-height: 280px;
+    }
+}

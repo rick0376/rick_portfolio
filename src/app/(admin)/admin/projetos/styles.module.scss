@@ -1,0 +1,94 @@
+// src/app/(admin)/admin/projetos/styles.module.scss
+
+.page {
+    display: grid;
+    gap: 24px;
+}
+
+.hero {
+    position: relative;
+    display: flex;
+    min-height: 190px;
+    padding: 29px 31px;
+    overflow: hidden;
+    border-radius: 20px;
+    color: #ffffff;
+    background:
+        radial-gradient(circle at 82% 10%,
+            rgba(47, 195, 255, 0.28),
+            transparent 32%),
+        linear-gradient(135deg,
+            #071a35,
+            #0b3974);
+    box-shadow: 0 20px 55px rgba(11, 42, 85, 0.2);
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+
+    h1 {
+        margin: 9px 0 7px;
+        font-size: 30px;
+        letter-spacing: -1px;
+    }
+
+    p {
+        max-width: 550px;
+        margin: 0;
+        color: #b8cae2;
+        font-size: 13px;
+        line-height: 1.55;
+    }
+
+    >a {
+        position: relative;
+        z-index: 2;
+        display: inline-flex;
+        min-height: 46px;
+        padding: 0 18px;
+        border-radius: 11px;
+        color: #ffffff;
+        background: linear-gradient(135deg,
+                #2ba0ff,
+                #1768e8);
+        box-shadow: 0 12px 28px rgba(10, 103, 230, 0.34);
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 12px;
+        font-weight: 800;
+    }
+}
+
+.heroGlow {
+    position: absolute;
+    top: -150px;
+    right: 5%;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: rgba(48, 139, 255, 0.2);
+    filter: blur(50px);
+}
+
+.eyebrow {
+    display: inline-flex;
+    color: #52e1ff;
+    align-items: center;
+    gap: 7px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+}
+
+@media (max-width: 650px) {
+    .hero {
+        padding: 24px;
+        align-items: flex-start;
+        flex-direction: column;
+
+        >a {
+            width: 100%;
+        }
+    }
+}

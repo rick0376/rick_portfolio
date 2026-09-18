@@ -1,0 +1,32 @@
+// src/components/admin/AdminShell/styles.module.scss
+
+.shell {
+    min-height: 100vh;
+    background: #f3f6fa;
+}
+
+.contentArea {
+    min-height: 100vh;
+    margin-left: 270px;
+}
+
+.main {
+    width: 100%;
+    padding: 31px 32px 45px;
+}
+
+@media (max-width: 900px) {
+    .contentArea {
+        margin-left: 0;
+    }
+
+    .main {
+        padding: 25px 20px 40px;
+    }
+}
+
+@media (max-width: 520px) {
+    .main {
+        padding: 21px 14px 34px;
+    }
+}

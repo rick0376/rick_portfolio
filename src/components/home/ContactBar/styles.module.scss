@@ -1,0 +1,161 @@
+// src/components/home/ContactBar/styles.module.scss
+
+.contactBar {
+    display: grid;
+    min-height: 72px;
+    border-top: 1px solid rgba(133, 165, 230, 0.24);
+    align-items: center;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.contactItem {
+    display: flex;
+    min-width: 0;
+    padding: 9px 10px;
+    border: 1px solid transparent;
+    border-radius: 11px;
+    color: #d4def0;
+    align-items: center;
+    gap: 10px;
+    transition:
+        color 180ms ease,
+        border-color 180ms ease,
+        background 180ms ease,
+        transform 180ms ease;
+
+    &:hover {
+        border-color: rgba(117, 158, 241, 0.22);
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateY(-2px);
+    }
+}
+
+.iconBox {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    border: 1px solid rgba(114, 152, 229, 0.22);
+    border-radius: 10px;
+    background: rgba(30, 59, 111, 0.42);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+    place-items: center;
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.contactItem:hover .iconBox {
+    transform: scale(1.06);
+}
+
+.information {
+    display: grid;
+    min-width: 0;
+    gap: 3px;
+
+    small {
+        color: #7e91b6;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+    }
+
+    strong {
+        overflow: hidden;
+        font-size: 11px;
+        font-weight: 600;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+.email {
+    .iconBox {
+        color: #77a2ff;
+    }
+
+    &:hover .iconBox {
+        box-shadow: 0 8px 24px rgba(83, 132, 255, 0.25);
+    }
+}
+
+.whatsapp {
+    .iconBox {
+        color: #32e58c;
+    }
+
+    &:hover .iconBox {
+        box-shadow: 0 8px 24px rgba(50, 229, 140, 0.2);
+    }
+}
+
+.linkedin {
+    .iconBox {
+        color: #63a6ff;
+    }
+
+    &:hover .iconBox {
+        box-shadow: 0 8px 24px rgba(50, 124, 255, 0.23);
+    }
+}
+
+.github {
+    .iconBox {
+        color: #e3e9f5;
+    }
+
+    &:hover .iconBox {
+        box-shadow: 0 8px 24px rgba(218, 228, 248, 0.15);
+    }
+}
+
+.location {
+    .iconBox {
+        color: #7b86ff;
+    }
+
+    &:hover .iconBox {
+        box-shadow: 0 8px 24px rgba(96, 102, 255, 0.24);
+    }
+}
+
+.phone {
+    .iconBox {
+        color: #53d7ff;
+    }
+
+    &:hover .iconBox {
+        box-shadow: 0 8px 24px rgba(83, 215, 255, 0.22);
+    }
+}
+
+@media (max-width: 1050px) {
+    .contactBar {
+        padding: 14px 0;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 680px) {
+    .contactBar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 460px) {
+    .contactBar {
+        grid-template-columns: 1fr;
+    }
+
+    .contactItem {
+        padding: 8px;
+    }
+
+    .information strong {
+        font-size: 12px;
+    }
+}
