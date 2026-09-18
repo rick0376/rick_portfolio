@@ -3,13 +3,15 @@
 import ContactBar from "@/components/home/ContactBar/ContactBar";
 import {
   ArrowUpRight,
-  Download,
+  FileText,
   Lightbulb,
   Rocket,
   Target,
   UsersRound,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+
 import styles from "./styles.module.scss";
 
 const highlights = [
@@ -43,31 +45,44 @@ export default function Hero() {
       <div className={styles.container}>
         <div className={styles.main}>
           <div className={styles.copy}>
-            <span className={styles.eyebrow}>Olá, eu sou</span>
+            <span className={styles.eyebrow}>
+              Olá, eu sou
+            </span>
 
             <h1>
               Luis Henrique <em>Pereira</em>
             </h1>
 
-            <h2>Portfólio, Currículo e Projetos</h2>
+            <h2>
+              Portfólio, Currículo e Projetos
+            </h2>
 
             <p>
-              Desenvolvo sites, aplicativos, dashboards e soluções digitais que
-              transformam ideias em resultados. Trabalho com tecnologias modernas
-              para criar produtos web e mobile de alta qualidade.
-              Sempre focado em perfomance, usabilidade e valor para o negócio.
+              Desenvolvo sites, aplicativos, dashboards
+              e soluções digitais que transformam ideias
+              em resultados. Trabalho com tecnologias
+              modernas para criar produtos web e mobile
+              de alta qualidade. Sempre focado em
+              performance, usabilidade e valor para o
+              negócio.
             </p>
 
             <div className={styles.actions}>
-              <a className={styles.primary} href="#projetos">
+              <a
+                className={styles.primary}
+                href="#projetos"
+              >
                 <ArrowUpRight size={18} />
                 Ver projetos
               </a>
 
-              <a className={styles.secondary} href="/curriculo.pdf" download>
-                <Download size={18} />
-                Baixar currículo
-              </a>
+              <Link
+                className={styles.secondary}
+                href="/curriculo"
+              >
+                <FileText size={18} />
+                Ver currículo
+              </Link>
             </div>
           </div>
 
@@ -91,16 +106,32 @@ export default function Hero() {
 
           <aside className={styles.highlights}>
             <div className={styles.highlightList}>
-              {highlights.map(({ icon: Icon, title, description }) => (
-                <div className={styles.highlightItem} key={description}>
-                  <Icon size={22} strokeWidth={1.8} />
+              {highlights.map(
+                ({
+                  icon: Icon,
+                  title,
+                  description,
+                }) => (
+                  <div
+                    className={
+                      styles.highlightItem
+                    }
+                    key={description}
+                  >
+                    <Icon
+                      size={22}
+                      strokeWidth={1.8}
+                    />
 
-                  <div>
-                    <strong>{title}</strong>
-                    <span>{description}</span>
+                    <div>
+                      <strong>{title}</strong>
+                      <span>
+                        {description}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ),
+              )}
             </div>
 
             <blockquote>
