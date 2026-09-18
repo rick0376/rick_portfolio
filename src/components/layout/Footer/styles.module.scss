@@ -7,7 +7,9 @@
 
 .cta {
   position: relative;
+  width: min(1180px, calc(100% - 40px));
   min-height: 105px;
+  margin: 0 auto;
   background: #081a36;
   overflow: hidden;
 }
@@ -15,13 +17,14 @@
 .ctaBackground {
   position: absolute;
   inset: 0;
+  border-radius: 0;
   background:
     linear-gradient(90deg,
       rgba(6, 20, 43, 0.98) 0%,
-      rgba(7, 29, 63, 0.9) 38%,
-      rgba(12, 42, 88, 0.42) 68%,
-      rgba(9, 31, 66, 0.18) 100%),
-    url("/images/footer/footer-landscape.png") center 54% / cover no-repeat;
+      rgba(7, 29, 63, 0.88) 38%,
+      rgba(12, 42, 88, 0.34) 68%,
+      rgba(9, 31, 66, 0.12) 100%),
+    url("/images/footer/footer-landscape.png") 62% center / cover no-repeat;
   pointer-events: none;
 }
 
@@ -29,13 +32,14 @@
   position: relative;
   z-index: 1;
   display: grid;
-  width: min(1180px, calc(100% - 40px));
+  width: 100%;
   min-height: 105px;
-  margin: 0 auto;
+  margin: 0;
+  padding: 0 32px;
   grid-template-columns:
     minmax(320px, 1fr) auto minmax(190px, 0.58fr);
   align-items: center;
-  gap: 55px;
+  gap: 45px;
 }
 
 .ctaCopy {
@@ -280,16 +284,17 @@
 
 @media (max-width: 620px) {
   .cta {
+    width: 100;
     min-height: auto;
   }
 
   .ctaBackground {
-    background-position: 67% center;
+    background-position: 68% center;
   }
 
   .ctaContent {
     min-height: auto;
-    padding: 29px 0;
+    padding: 29px 20;
     grid-template-columns: 1fr;
     gap: 20px;
   }

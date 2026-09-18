@@ -231,6 +231,7 @@
 
 .photoArea {
   position: relative;
+  margin-bottom: 28px;
   align-self: end;
 
   &::before {
@@ -482,7 +483,8 @@
   }
 
   .photoArea {
-    width: min(100%, 330px);
+    width: min(100%, 340px);
+    margin-bottom: 22px;
     justify-self: center;
   }
 
