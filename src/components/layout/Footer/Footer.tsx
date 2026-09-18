@@ -1,182 +1,176 @@
 // src/components/layout/Footer/Footer.tsx
 
 import {
-  ArrowUp,
   Github,
   Linkedin,
+  LockKeyhole,
   Mail,
-  MapPin,
   MessageCircle,
-  Phone,
+  Send,
 } from "lucide-react";
+import Link from "next/link";
 
 import {
   createWhatsAppUrl,
   getSiteSettings,
 } from "@/lib/site-settings";
 
-import AppLogo from "../AppLogo/AppLogo";
 import styles from "./styles.module.scss";
 
 const navigation = [
-  { label: "Início", href: "#inicio" },
-  { label: "Sobre", href: "#sobre" },
-  { label: "Projetos", href: "#projetos" },
-  { label: "Habilidades", href: "#habilidades" },
-  { label: "Contato", href: "#contato" },
+  { label: "Início", href: "/#inicio" },
+  { label: "Sobre", href: "/#sobre" },
+  { label: "Projetos", href: "/#projetos" },
+  { label: "Habilidades", href: "/#habilidades" },
+  { label: "Contato", href: "/#contato" },
 ];
 
 export default async function Footer() {
   const settings = await getSiteSettings();
-  const whatsappUrl = createWhatsAppUrl(
-    settings.whatsapp,
-  );
+
+  const email =
+    settings.email || "contato@rickpereira.dev";
+
+  const whatsappUrl =
+    createWhatsAppUrl(settings.whatsapp) || "#contato";
+
+  const linkedinUrl =
+    settings.linkedinUrl ||
+    "https://www.linkedin.com/in/luis-henrique-pereira-adm/";
+
+  const githubUrl =
+    settings.githubUrl || "https://github.com";
 
   return (
     <footer className={styles.footer}>
-      <div className={styles.glow} />
+      <section className={styles.cta}>
+        <div className={styles.ctaBackground} />
 
-      <div className={styles.inner}>
-        <div className={styles.top}>
-          <div className={styles.brandColumn}>
-            <AppLogo />
+        <div className={styles.ctaContent}>
+          <div className={styles.ctaCopy}>
+            <h2>Vamos transformar ideias em realidade?</h2>
 
             <p>
-              {settings.biography ||
-                "Desenvolvimento de sistemas, aplicativos e dashboards que transformam ideias em resultados."}
+              Estou sempre aberto a novos desafios e oportunidades.
+              Entre em contato e vamos conversar sobre o seu projeto!
             </p>
-
-            {settings.availabilityText && (
-              <div className={styles.availability}>
-                <i />
-                {settings.availabilityText}
-              </div>
-            )}
           </div>
 
-          <div className={styles.navigationColumn}>
-            <span className={styles.columnTitle}>
-              Navegação
+          <a
+            className={styles.contactButton}
+            href={whatsappUrl}
+            target={
+              whatsappUrl.startsWith("http")
+                ? "_blank"
+                : undefined
+            }
+            rel={
+              whatsappUrl.startsWith("http")
+                ? "noopener noreferrer"
+                : undefined
+            }
+          >
+            <Send size={16} />
+            Entrar em contato
+          </a>
+
+          <blockquote>
+            “Tecnologia
+            <br />
+            para um futuro melhor.”
+          </blockquote>
+        </div>
+      </section>
+
+      <section className={styles.footerBar}>
+        <div className={styles.footerContent}>
+          <Link className={styles.brand} href="/#inicio">
+            <strong>LHP</strong>
+
+            <span>
+              {settings.professionalName ||
+                "Luis Henrique Pereira"}
             </span>
+          </Link>
 
-            <nav aria-label="Navegação do rodapé">
-              {navigation.map((item) => (
-                <a href={item.href} key={item.href}>
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-          </div>
+          <nav
+            className={styles.navigation}
+            aria-label="Navegação do rodapé"
+          >
+            {navigation.map((item) => (
+              <Link href={item.href} key={item.href}>
+                {item.label}
+              </Link>
+            ))}
+          </nav>
 
-          <div className={styles.contactColumn}>
-            <span className={styles.columnTitle}>
-              Entre em contato
-            </span>
-
-            {settings.email && (
-              <a href={`mailto:${settings.email}`}>
-                <Mail size={16} />
-                {settings.email}
-              </a>
-            )}
-
-            {settings.phone && (
-              <a
-                href={`tel:${settings.phone.replace(
-                  /\D/g,
-                  "",
-                )}`}
-              >
-                <Phone size={16} />
-                {settings.phone}
-              </a>
-            )}
-
-            {whatsappUrl && (
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <MessageCircle size={16} />
-                Conversar pelo WhatsApp
-              </a>
-            )}
-
-            {settings.location && (
-              <span>
-                <MapPin size={16} />
-                {settings.location}
-              </span>
-            )}
-          </div>
-
-          <div className={styles.socialColumn}>
-            <span className={styles.columnTitle}>
-              Redes profissionais
-            </span>
-
-            <div className={styles.social}>
-              {settings.linkedinUrl && (
-                <a
-                  href={settings.linkedinUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Acessar LinkedIn"
-                  title="LinkedIn"
-                >
-                  <Linkedin size={19} />
-                </a>
-              )}
-
-              {settings.githubUrl && (
-                <a
-                  href={settings.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Acessar GitHub"
-                  title="GitHub"
-                >
-                  <Github size={19} />
-                </a>
-              )}
-
-              {whatsappUrl && (
-                <a
-                  className={styles.whatsappSocial}
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Conversar pelo WhatsApp"
-                  title="WhatsApp"
-                >
-                  <MessageCircle size={19} />
-                </a>
-              )}
-            </div>
+          <div className={styles.social}>
+            <a
+              href={linkedinUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Acessar LinkedIn"
+              title="LinkedIn"
+            >
+              <Linkedin size={16} />
+            </a>
 
             <a
-              className={styles.backToTop}
-              href="#inicio"
+              href={githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Acessar GitHub"
+              title="GitHub"
             >
-              Voltar ao topo
-              <ArrowUp size={16} />
+              <Github size={16} />
+            </a>
+
+            <a
+              className={styles.whatsapp}
+              href={whatsappUrl}
+              target={
+                whatsappUrl.startsWith("http")
+                  ? "_blank"
+                  : undefined
+              }
+              rel={
+                whatsappUrl.startsWith("http")
+                  ? "noopener noreferrer"
+                  : undefined
+              }
+              aria-label="Conversar pelo WhatsApp"
+              title="WhatsApp"
+            >
+              <MessageCircle size={16} />
+            </a>
+
+            <a
+              href={`mailto:${email}`}
+              aria-label="Enviar e-mail"
+              title="E-mail"
+            >
+              <Mail size={16} />
             </a>
           </div>
-        </div>
 
-        <div className={styles.bottom}>
-          <p>
-            © {new Date().getFullYear()}{" "}
-            {settings.professionalName}. Todos os direitos
-            reservados.
-          </p>
+          <div className={styles.right}>
+            <span>
+              Feito com dedicação
+              <i />
+              © {new Date().getFullYear()}
+            </span>
 
-          <span>
-            Criado com tecnologia, dedicação e propósito.
-          </span>
+            <Link
+              className={styles.adminButton}
+              href="/admin/login"
+              aria-label="Acessar área administrativa"
+              title="Área administrativa"
+            >
+              <LockKeyhole size={15} />
+            </Link>
+          </div>
         </div>
-      </div>
+      </section>
     </footer>
   );
 }
