@@ -1,5 +1,3 @@
-// src/components/admin/SettingsForm/SettingsForm.tsx
-
 "use client";
 
 import {
@@ -41,11 +39,53 @@ type SettingsFormProps = {
     initialData: SettingsFormData;
 };
 
+function removeCountryCode(value: string) {
+    let digits = value.replace(/\D/g, "");
+
+    if (
+        digits.startsWith("55") &&
+        (digits.length === 12 || digits.length === 13)
+    ) {
+        digits = digits.slice(2);
+    }
+
+    return digits.slice(0, 11);
+}
+
+function formatPhone(value: string) {
+    const digits = removeCountryCode(value);
+
+    if (!digits) {
+        return "";
+    }
+
+    if (digits.length <= 2) {
+        return `(${digits}`;
+    }
+
+    const ddd = digits.slice(0, 2);
+    const number = digits.slice(2);
+
+    if (number.length <= 4) {
+        return `(${ddd}) ${number}`;
+    }
+
+    if (number.length <= 8) {
+        return `(${ddd}) ${number.slice(0, 4)}-${number.slice(4)}`;
+    }
+
+    return `(${ddd}) ${number.slice(0, 5)}-${number.slice(5, 9)}`;
+}
+
 export default function SettingsForm({
     initialData,
 }: SettingsFormProps) {
-    const [formData, setFormData] =
-        useState<SettingsFormData>(initialData);
+    const [formData, setFormData] = useState<SettingsFormData>(() => ({
+        ...initialData,
+        phone: formatPhone(initialData.phone),
+        whatsapp: formatPhone(initialData.whatsapp),
+    }));
+
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState("");
     const [success, setSuccess] = useState(false);
@@ -60,6 +100,14 @@ export default function SettingsForm({
         }));
     }
 
+    function updatePhone(value: string) {
+        updateField("phone", formatPhone(value));
+    }
+
+    function updateWhatsApp(value: string) {
+        updateField("whatsapp", formatPhone(value));
+    }
+
     async function handleSubmit(
         event: FormEvent<HTMLFormElement>,
     ) {
@@ -69,13 +117,20 @@ export default function SettingsForm({
         setMessage("");
         setSuccess(false);
 
+        const dataToSave = {
+            ...formData,
+            whatsapp: formData.whatsapp
+                ? `+55 ${formData.whatsapp}`
+                : "",
+        };
+
         try {
             const response = await fetch("/api/settings", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(dataToSave),
             });
 
             const data = await response.json();
@@ -159,6 +214,7 @@ export default function SettingsForm({
 
                             <div>
                                 <h2>Identidade profissional</h2>
+
                                 <p>
                                     Dados principais apresentados no portfólio.
                                 </p>
@@ -168,6 +224,7 @@ export default function SettingsForm({
                         <div className={styles.fields}>
                             <label>
                                 <span>Nome profissional</span>
+
                                 <input
                                     value={formData.professionalName}
                                     onChange={(event) =>
@@ -183,6 +240,7 @@ export default function SettingsForm({
 
                             <label>
                                 <span>Nome da marca</span>
+
                                 <input
                                     value={formData.brandName}
                                     onChange={(event) =>
@@ -198,6 +256,7 @@ export default function SettingsForm({
 
                             <label className={styles.fullField}>
                                 <span>Título profissional</span>
+
                                 <input
                                     value={formData.headline}
                                     onChange={(event) =>
@@ -212,6 +271,7 @@ export default function SettingsForm({
 
                             <label className={styles.fullField}>
                                 <span>Biografia</span>
+
                                 <textarea
                                     value={formData.biography}
                                     onChange={(event) =>
@@ -227,6 +287,7 @@ export default function SettingsForm({
 
                             <label className={styles.fullField}>
                                 <span>Mensagem de disponibilidade</span>
+
                                 <input
                                     value={formData.availabilityText}
                                     onChange={(event) =>
@@ -249,6 +310,7 @@ export default function SettingsForm({
 
                             <div>
                                 <h2>Contatos</h2>
+
                                 <p>
                                     Campos vazios não serão exibidos no site.
                                 </p>
@@ -279,11 +341,14 @@ export default function SettingsForm({
                                 </span>
 
                                 <input
+                                    type="tel"
+                                    inputMode="numeric"
+                                    maxLength={15}
                                     value={formData.phone}
                                     onChange={(event) =>
-                                        updateField("phone", event.target.value)
+                                        updatePhone(event.target.value)
                                     }
-                                    placeholder="(12) 99999-9999"
+                                    placeholder="(12) 99189-0682"
                                 />
                             </label>
 
@@ -294,18 +359,19 @@ export default function SettingsForm({
                                 </span>
 
                                 <input
+                                    type="tel"
+                                    inputMode="numeric"
+                                    maxLength={15}
                                     value={formData.whatsapp}
                                     onChange={(event) =>
-                                        updateField(
-                                            "whatsapp",
-                                            event.target.value,
-                                        )
+                                        updateWhatsApp(event.target.value)
                                     }
-                                    placeholder="5512999999999"
+                                    placeholder="(12) 99189-0682"
                                 />
 
                                 <small>
-                                    Informe o código do país, DDD e número.
+                                    Digite apenas o DDD e o número. O código +55
+                                    será acrescentado automaticamente ao salvar.
                                 </small>
                             </label>
 
@@ -323,7 +389,7 @@ export default function SettingsForm({
                                             event.target.value,
                                         )
                                     }
-                                    placeholder="São Paulo, SP"
+                                    placeholder="Pindamonhangaba, SP"
                                 />
                             </label>
                         </div>
@@ -411,11 +477,12 @@ export default function SettingsForm({
                                             event.target.value,
                                         )
                                     }
-                                    placeholder="/curriculo.pdf"
+                                    placeholder="/curriculo/curriculo-luis-henrique-pereira.pdf"
                                 />
 
                                 <small>
-                                    Pode usar `/curriculo.pdf` ou uma URL completa.
+                                    Pode usar um caminho iniciado por / ou uma URL
+                                    completa.
                                 </small>
                             </label>
                         </div>
@@ -428,6 +495,7 @@ export default function SettingsForm({
 
                         <div>
                             <strong>Atualização centralizada</strong>
+
                             <p>
                                 As alterações serão utilizadas na página
                                 principal, contatos e rodapé.
