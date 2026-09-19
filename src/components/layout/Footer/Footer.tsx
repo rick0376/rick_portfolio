@@ -32,7 +32,7 @@ export default async function Footer() {
     settings.email || "contato@rickpereira.dev";
 
   const whatsappUrl =
-    createWhatsAppUrl(settings.whatsapp) || "#contato";
+    createWhatsAppUrl(settings.whatsapp) || "/#contato";
 
   const linkedinUrl =
     settings.linkedinUrl ||
@@ -41,6 +41,9 @@ export default async function Footer() {
   const githubUrl =
     settings.githubUrl || "https://github.com";
 
+  const isExternalWhatsApp =
+    whatsappUrl.startsWith("http");
+
   return (
     <footer className={styles.footer}>
       <section className={styles.cta}>
@@ -48,29 +51,28 @@ export default async function Footer() {
 
         <div className={styles.ctaContent}>
           <div className={styles.ctaCopy}>
-            <h2>Vamos transformar ideias em realidade?</h2>
+            <h2>
+              Vamos transformar ideias em realidade?
+            </h2>
 
             <p>
-              Estou sempre aberto a novos desafios e oportunidades.
-              Entre em contato e vamos conversar sobre o seu projeto!
+              Estou sempre aberto a novos desafios e
+              oportunidades. Entre em contato e vamos conversar
+              sobre o seu projeto!
             </p>
           </div>
 
           <a
             className={styles.contactButton}
             href={whatsappUrl}
-            target={
-              whatsappUrl.startsWith("http")
-                ? "_blank"
-                : undefined
-            }
+            target={isExternalWhatsApp ? "_blank" : undefined}
             rel={
-              whatsappUrl.startsWith("http")
+              isExternalWhatsApp
                 ? "noopener noreferrer"
                 : undefined
             }
           >
-            <Send size={16} />
+            <Send size={17} />
             Entrar em contato
           </a>
 
@@ -112,7 +114,7 @@ export default async function Footer() {
               aria-label="Acessar LinkedIn"
               title="LinkedIn"
             >
-              <Linkedin size={16} />
+              <Linkedin size={17} />
             </a>
 
             <a
@@ -122,26 +124,22 @@ export default async function Footer() {
               aria-label="Acessar GitHub"
               title="GitHub"
             >
-              <Github size={16} />
+              <Github size={17} />
             </a>
 
             <a
               className={styles.whatsapp}
               href={whatsappUrl}
-              target={
-                whatsappUrl.startsWith("http")
-                  ? "_blank"
-                  : undefined
-              }
+              target={isExternalWhatsApp ? "_blank" : undefined}
               rel={
-                whatsappUrl.startsWith("http")
+                isExternalWhatsApp
                   ? "noopener noreferrer"
                   : undefined
               }
               aria-label="Conversar pelo WhatsApp"
               title="WhatsApp"
             >
-              <MessageCircle size={16} />
+              <MessageCircle size={17} />
             </a>
 
             <a
@@ -149,7 +147,7 @@ export default async function Footer() {
               aria-label="Enviar e-mail"
               title="E-mail"
             >
-              <Mail size={16} />
+              <Mail size={17} />
             </a>
           </div>
 
@@ -166,7 +164,7 @@ export default async function Footer() {
               aria-label="Acessar área administrativa"
               title="Área administrativa"
             >
-              <LockKeyhole size={15} />
+              <LockKeyhole size={16} />
             </Link>
           </div>
         </div>
