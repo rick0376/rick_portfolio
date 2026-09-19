@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import {
     ArrowLeft,
     ArrowUpRight,
+    Home,
     Github,
     Layers3,
 } from "lucide-react";
@@ -174,10 +175,10 @@ export default async function ProjectDetailsPage({
                 <div className={styles.container}>
                     <Link
                         className={styles.backLink}
-                        href="/#projetos"
+                        href="/"
                     >
-                        <ArrowLeft size={17} />
-                        Voltar aos projetos
+                        <Home size={17} />
+                        Voltar para a página inicial
                     </Link>
 
                     <div className={styles.heroContent}>

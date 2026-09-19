@@ -45,16 +45,32 @@
 
 .backLink {
     display: inline-flex;
-    margin-bottom: 45px;
-    color: #9fb5dc;
+    min-height: 42px;
+    padding: 0 16px;
+    border: 1px solid rgba(132, 187, 255, 0.3);
+    border-radius: 11px;
+    background: rgba(22, 77, 151, 0.18);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    color: #dcecff;
     align-items: center;
-    gap: 8px;
+    gap: 9px;
     font-size: 12px;
-    font-weight: 700;
-    transition: color 180ms ease;
+    font-weight: 750;
+    transition:
+        color 180ms ease,
+        border-color 180ms ease,
+        background 180ms ease,
+        transform 180ms ease;
+
+    svg {
+        color: #5bcfff;
+    }
 
     &:hover {
+        border-color: rgba(91, 207, 255, 0.58);
+        background: rgba(28, 112, 222, 0.25);
         color: #ffffff;
+        transform: translateY(-2px);
     }
 }
 

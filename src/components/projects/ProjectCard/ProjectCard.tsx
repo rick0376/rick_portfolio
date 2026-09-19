@@ -7,9 +7,11 @@ import {
   CarFront,
   ImageIcon,
   RadioTower,
+  Sparkles,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
 import styles from "./styles.module.scss";
 
 type ProjectCardProps = {
@@ -22,9 +24,18 @@ const projectIcons = {
   "dashboard-gestao": BarChart3,
 };
 
-export default function ProjectCard({ project }: ProjectCardProps) {
+export default function ProjectCard({
+  project,
+}: ProjectCardProps) {
   const Icon =
-    projectIcons[project.slug as keyof typeof projectIcons] ?? ImageIcon;
+    projectIcons[
+    project.slug as keyof typeof projectIcons
+    ] ?? ImageIcon;
+
+  const showCategory =
+    Boolean(project.category) &&
+    project.category.toLowerCase() !==
+    project.status.toLowerCase();
 
   return (
     <article className={styles.card}>
@@ -33,14 +44,16 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         href={`/projetos/${project.slug}`}
         aria-label={`Ver detalhes do projeto ${project.title}`}
       >
-        <div className={`${styles.cover} ${styles[project.accent]}`}>
+        <div
+          className={`${styles.cover} ${styles[project.accent]}`}
+        >
           {project.coverImageUrl ? (
             <Image
               className={styles.coverImage}
               src={project.coverImageUrl}
               alt={`Imagem de capa do projeto ${project.title}`}
               fill
-              sizes="(max-width: 680px) 100vw, (max-width: 980px) 50vw, 33vw"
+              sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 520px"
             />
           ) : (
             <div className={styles.placeholder}>
@@ -85,16 +98,36 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
           <div className={styles.coverOverlay} />
 
-          <span className={styles.status}>{project.status}</span>
-          <span className={styles.category}>{project.category}</span>
+          <span className={styles.featured}>
+            <Sparkles size={13} />
+            Projeto em destaque
+          </span>
+
+          <div className={styles.coverLabels}>
+            <span className={styles.status}>
+              {project.status}
+            </span>
+
+            {showCategory && (
+              <span className={styles.category}>
+                {project.category}
+              </span>
+            )}
+          </div>
         </div>
 
         <div className={styles.content}>
           <div className={styles.titleRow}>
-            <h3>{project.title}</h3>
+            <div>
+              <span className={styles.projectLabel}>
+                Solução digital
+              </span>
+
+              <h3>{project.title}</h3>
+            </div>
 
             <span className={styles.openButton}>
-              <ArrowUpRight size={19} />
+              <ArrowUpRight size={20} />
             </span>
           </div>
 
@@ -102,14 +135,18 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
           <div className={styles.footer}>
             <div className={styles.tags}>
-              {project.technologies.map((technology) => (
-                <span key={technology}>{technology}</span>
-              ))}
+              {project.technologies.map(
+                (technology) => (
+                  <span key={technology}>
+                    {technology}
+                  </span>
+                ),
+              )}
             </div>
 
             <span className={styles.viewProject}>
-              Ver projeto
-              <ArrowUpRight size={15} />
+              Conhecer projeto
+              <ArrowUpRight size={16} />
             </span>
           </div>
         </div>

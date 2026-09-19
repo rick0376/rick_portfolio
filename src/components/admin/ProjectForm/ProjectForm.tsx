@@ -170,12 +170,31 @@ export default function ProjectForm({
                     position,
                     categoryId: categoryId || null,
                     technologyIds,
-                    images: galleryImages.map((image, index) => ({
-                        imageUrl: image.imageUrl,
-                        publicId: image.publicId,
-                        altText: image.altText,
-                        position: index,
-                    })),
+                    images: galleryImages
+                        .filter(
+                            (image, index, currentImages) => {
+                                const isCover =
+                                    image.imageUrl === coverImage?.imageUrl ||
+                                    image.publicId === coverImage?.publicId;
+
+                                const isFirstOccurrence =
+                                    currentImages.findIndex(
+                                        (currentImage) =>
+                                            currentImage.imageUrl ===
+                                            image.imageUrl ||
+                                            currentImage.publicId ===
+                                            image.publicId,
+                                    ) === index;
+
+                                return !isCover && isFirstOccurrence;
+                            },
+                        )
+                        .map((image, index) => ({
+                            imageUrl: image.imageUrl,
+                            publicId: image.publicId,
+                            altText: image.altText,
+                            position: index,
+                        })),
                 }),
             });
 

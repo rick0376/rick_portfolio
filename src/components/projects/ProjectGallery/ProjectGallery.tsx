@@ -5,7 +5,12 @@
 import type { ProjectImage } from "@/types/project";
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import {
+    useEffect,
+    useMemo,
+    useState,
+} from "react";
+
 import styles from "./styles.module.scss";
 
 type ProjectGalleryProps = {
@@ -19,13 +24,38 @@ export default function ProjectGallery({
     coverImageUrl,
     images,
 }: ProjectGalleryProps) {
-    const orderedImages = [...images].sort(
-        (firstImage, secondImage) =>
-            firstImage.position - secondImage.position,
-    );
+    const galleryImages = useMemo(() => {
+        const orderedImages = [...images].sort(
+            (firstImage, secondImage) =>
+                firstImage.position -
+                secondImage.position,
+        );
 
-    const galleryImages = coverImageUrl
-        ? [
+        const uniqueImages = orderedImages.filter(
+            (image, index, currentImages) => {
+                const isCover =
+                    Boolean(coverImageUrl) &&
+                    image.imageUrl === coverImageUrl;
+
+                const firstOccurrence =
+                    currentImages.findIndex(
+                        (currentImage) =>
+                            currentImage.imageUrl ===
+                            image.imageUrl ||
+                            (Boolean(image.publicId) &&
+                                currentImage.publicId ===
+                                image.publicId),
+                    ) === index;
+
+                return !isCover && firstOccurrence;
+            },
+        );
+
+        if (!coverImageUrl) {
+            return uniqueImages;
+        }
+
+        return [
             {
                 id: "cover",
                 imageUrl: coverImageUrl,
@@ -33,18 +63,32 @@ export default function ProjectGallery({
                 altText: `Imagem de capa do projeto ${projectTitle}`,
                 position: 0,
             },
-            ...orderedImages.filter(
-                (image) => image.imageUrl !== coverImageUrl,
-            ),
-        ]
-        : orderedImages;
+            ...uniqueImages,
+        ];
+    }, [coverImageUrl, images, projectTitle]);
 
-    const [selectedImage, setSelectedImage] = useState(
-        galleryImages[0]?.imageUrl ?? null,
-    );
+    const [selectedImage, setSelectedImage] =
+        useState<string | null>(
+            galleryImages[0]?.imageUrl ?? null,
+        );
+
+    useEffect(() => {
+        const selectedStillExists =
+            galleryImages.some(
+                (image) =>
+                    image.imageUrl === selectedImage,
+            );
+
+        if (!selectedStillExists) {
+            setSelectedImage(
+                galleryImages[0]?.imageUrl ?? null,
+            );
+        }
+    }, [galleryImages, selectedImage]);
 
     const selectedImageData = galleryImages.find(
-        (image) => image.imageUrl === selectedImage,
+        (image) =>
+            image.imageUrl === selectedImage,
     );
 
     if (galleryImages.length === 0) {
@@ -55,7 +99,11 @@ export default function ProjectGallery({
                 </span>
 
                 <strong>Galeria em preparação</strong>
-                <p>As imagens deste projeto serão adicionadas em breve.</p>
+
+                <p>
+                    As imagens deste projeto serão
+                    adicionadas em breve.
+                </p>
             </div>
         );
     }
@@ -79,26 +127,38 @@ export default function ProjectGallery({
 
             {galleryImages.length > 1 && (
                 <div className={styles.thumbnails}>
-                    {galleryImages.map((image, index) => (
-                        <button
-                            className={
-                                selectedImage === image.imageUrl ? styles.active : undefined
-                            }
-                            type="button"
-                            key={image.id}
-                            onClick={() => setSelectedImage(image.imageUrl)}
-                            aria-label={`Visualizar imagem ${index + 1} do projeto`}
-                        >
-                            <Image
-                                src={image.imageUrl}
-                                alt={image.altText || `Miniatura ${index + 1}`}
-                                fill
-                                sizes="130px"
-                            />
+                    {galleryImages.map(
+                        (image, index) => (
+                            <button
+                                className={
+                                    selectedImage ===
+                                        image.imageUrl
+                                        ? styles.active
+                                        : undefined
+                                }
+                                type="button"
+                                key={`${image.id}-${image.imageUrl}`}
+                                onClick={() =>
+                                    setSelectedImage(
+                                        image.imageUrl,
+                                    )
+                                }
+                                aria-label={`Visualizar imagem ${index + 1} do projeto`}
+                            >
+                                <Image
+                                    src={image.imageUrl}
+                                    alt={
+                                        image.altText ||
+                                        `Miniatura ${index + 1}`
+                                    }
+                                    fill
+                                    sizes="130px"
+                                />
 
-                            <span>{index + 1}</span>
-                        </button>
-                    ))}
+                                <span>{index + 1}</span>
+                            </button>
+                        ),
+                    )}
                 </div>
             )}
         </div>

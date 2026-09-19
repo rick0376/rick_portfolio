@@ -12,6 +12,8 @@ import {
   FolderOpen,
 } from "lucide-react";
 import Link from "next/link";
+import { connection } from "next/server";
+
 import styles from "./styles.module.scss";
 
 function getProjectAccent(
@@ -49,6 +51,12 @@ function getProjectTypeLabel(type: string) {
 }
 
 export default async function FeaturedProjects() {
+  /*
+   * Impede que a página principal seja gerada
+   * apenas durante o build da aplicação.
+   */
+  await connection();
+
   const databaseProjects =
     await prisma.project.findMany({
       where: {
