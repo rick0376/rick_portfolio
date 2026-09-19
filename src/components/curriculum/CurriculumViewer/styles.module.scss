@@ -9,12 +9,13 @@
 }
 
 .toolbar {
+    position: relative;
+    z-index: 3;
     display: flex;
     min-height: 68px;
     padding: 12px 14px;
     border-bottom: 1px solid rgba(65, 139, 235, 0.2);
-    background:
-        linear-gradient(135deg,
+    background: linear-gradient(135deg,
             rgba(238, 247, 255, 0.98),
             rgba(247, 249, 255, 0.98));
     box-shadow:
@@ -25,7 +26,7 @@
     gap: 20px;
 }
 
-.document {
+.documentInfo {
     display: flex;
     min-width: 0;
     align-items: center;
@@ -37,20 +38,21 @@
         gap: 3px;
     }
 
-    strong {
+    strong,
+    small {
         overflow: hidden;
-        color: #102039;
-        font-size: 12px;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
 
+    strong {
+        color: #102039;
+        font-size: 12px;
+    }
+
     small {
-        overflow: hidden;
         color: #7d8da2;
         font-size: 10px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
     }
 }
 
@@ -76,7 +78,8 @@
 
 .actionButton,
 .homeButton,
-.iconCloseButton {
+.downloadButton,
+.closeButton {
     display: inline-flex;
     min-height: 40px;
     padding: 0 12px;
@@ -127,7 +130,7 @@
     color: #087bdc;
 }
 
-.closeButton {
+.normalButton {
     border-color: #ffccd0;
     background: #fff2f3;
     color: #c52c37;
@@ -139,7 +142,7 @@
     }
 }
 
-.iconCloseButton {
+.closeButton {
     width: 40px;
     padding: 0;
     border-color: #ffccd0;
@@ -151,26 +154,102 @@
     position: relative;
     height: min(78vh, 900px);
     min-height: 650px;
+    padding: 22px;
+    overflow: auto;
+    overscroll-behavior: contain;
     background:
         linear-gradient(rgba(31, 105, 193, 0.025) 1px,
             transparent 1px),
         linear-gradient(90deg,
             rgba(31, 105, 193, 0.025) 1px,
             transparent 1px),
-        #e9eef5;
+        #dfe5ed;
     background-size: 35px 35px;
+    scrollbar-color: #8294aa #e5eaf0;
+    scrollbar-width: thin;
+}
 
-    iframe {
+.pdfDocument {
+    display: grid;
+    width: 100%;
+    justify-items: center;
+    gap: 18px;
+}
+
+.pdfPage {
+    max-width: 100%;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow:
+        0 7px 22px rgba(22, 38, 61, 0.16),
+        0 1px 3px rgba(22, 38, 61, 0.12);
+
+    canvas {
         display: block;
-        width: 100%;
-        height: 100%;
-        border: 0;
-        background: #ffffff;
+        max-width: 100%;
+        height: auto !important;
     }
 }
 
-.compactViewer {
-    display: none;
+.loading,
+.error {
+    display: grid;
+    min-height: 430px;
+    color: #6b7f98;
+    align-content: center;
+    justify-items: center;
+    gap: 12px;
+    text-align: center;
+}
+
+.loading {
+    svg {
+        color: #1289ed;
+        animation: spin 800ms linear infinite;
+    }
+
+    strong {
+        color: #263a54;
+        font-size: 13px;
+    }
+}
+
+.error {
+    svg {
+        color: #1590ef;
+    }
+
+    strong {
+        color: #172a44;
+        font-size: 15px;
+    }
+
+    p {
+        margin: 0;
+        font-size: 11px;
+    }
+
+    a {
+        display: inline-flex;
+        min-height: 42px;
+        padding: 0 16px;
+        border-radius: 10px;
+        background: #087deb;
+        color: #ffffff;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        font-weight: 800;
+    }
+}
+
+.pageLoading {
+    display: grid;
+    width: min(100%, 800px);
+    min-height: 500px;
+    color: #75869b;
+    place-items: center;
+    font-size: 12px;
 }
 
 .expanded {
@@ -186,8 +265,6 @@
     .toolbar {
         min-height: 70px;
         padding: 10px 18px;
-        border-bottom-color: #d9e1eb;
-        box-shadow: 0 6px 20px rgba(23, 45, 72, 0.12);
     }
 
     .frame {
@@ -196,76 +273,54 @@
     }
 }
 
-@media (max-width: 900px) {
-    .viewer {
-        border-radius: 18px;
-    }
-
-    .toolbar {
-        display: flex;
-        min-height: 64px;
-        padding: 11px 13px;
-        align-items: center;
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 12px;
-    }
-
-    .document {
-        min-width: 0;
-        flex: 1;
-
-        strong,
-        small {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-    }
-
-    .actions {
-        display: flex;
-        flex: none;
-        align-items: center;
-        gap: 7px;
-    }
-
-    .expandButton {
-        display: none;
-    }
-
-    .actions .actionButton,
-    .actions .homeButton {
-        min-height: 39px;
-        padding: 0 10px;
-        font-size: 10px;
-    }
-
-    .frame {
-        display: block;
-        width: 100%;
-        height: 750px;
-        min-height: 750px;
-        padding: 0;
-        overflow: hidden;
-        background: #d9dfe7;
-
-        iframe {
-            display: block;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-    }
-
-    .compactViewer {
-        display: none;
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
     }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 760px) {
+    .toolbar {
+        min-height: 64px;
+        padding: 11px 13px;
+        gap: 12px;
+    }
+
+    .expandButton,
+    .openButton {
+        display: none;
+    }
+
+    .frame {
+        height: 720px;
+        min-height: 720px;
+        padding: 14px 10px;
+    }
+
+    .pdfDocument {
+        gap: 12px;
+    }
+
+    .expanded {
+        .toolbar {
+            min-height: 64px;
+        }
+
+        .frame {
+            height: calc(100vh - 64px);
+            min-height: 0;
+        }
+    }
+}
+
+@media (max-width: 560px) {
+    .viewer {
+        border-radius: 17px;
+    }
+
     .toolbar {
         padding: 10px 12px;
+        gap: 8px;
     }
 
     .documentIcon {
@@ -274,54 +329,86 @@
         flex-basis: 39px;
     }
 
-    .document {
+    .documentInfo {
+        flex: 1;
+
         strong {
             font-size: 11px;
         }
 
         small {
-            max-width: 150px;
+            max-width: 160px;
             font-size: 9px;
         }
     }
 
-    .openButton {
-        display: none;
+    .actions {
+        gap: 6px;
     }
 
-    .actions .downloadButton {
+    .downloadButton {
         width: 40px;
         min-width: 40px;
         height: 40px;
         padding: 0;
         font-size: 0;
-        gap: 0;
 
-        svg {
-            width: 18px;
-            height: 18px;
+        span {
+            display: none;
         }
     }
 
-    .frame {
-        height: 720px;
-        min-height: 720px;
+    .homeButton,
+    .normalButton {
+        width: 40px;
+        min-width: 40px;
+        padding: 0;
 
-        iframe {
-            display: block;
-            width: 100%;
-            height: 100%;
+        span {
+            display: none;
         }
     }
-}
 
-@media (max-width: 420px) {
-    .document small {
-        max-width: 120px;
+    .closeButton {
+        display: none;
     }
 
     .frame {
         height: 680px;
         min-height: 680px;
+        padding: 10px;
+    }
+
+    .pdfDocument {
+        gap: 10px;
+    }
+
+    .loading,
+    .error {
+        min-height: 480px;
+        padding: 20px;
+    }
+
+    .expanded {
+        .toolbar {
+            min-height: 61px;
+        }
+
+        .frame {
+            height: calc(100vh - 61px);
+            min-height: 0;
+        }
+    }
+}
+
+@media (max-width: 390px) {
+    .documentInfo small {
+        max-width: 125px;
+    }
+
+    .frame {
+        height: 620px;
+        min-height: 620px;
+        padding: 8px;
     }
 }
