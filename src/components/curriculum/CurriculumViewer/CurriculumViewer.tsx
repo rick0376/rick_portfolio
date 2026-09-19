@@ -1,5 +1,3 @@
-// src/components/curriculum/CurriculumViewer/CurriculumViewer.tsx
-
 "use client";
 
 import {
@@ -12,10 +10,7 @@ import {
     X,
 } from "lucide-react";
 import Link from "next/link";
-import {
-    useEffect,
-    useState,
-} from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 import styles from "./styles.module.scss";
@@ -37,9 +32,7 @@ export default function CurriculumViewer({
     }, []);
 
     useEffect(() => {
-        document.body.style.overflow = expanded
-            ? "hidden"
-            : "";
+        document.body.style.overflow = expanded ? "hidden" : "";
 
         function handleKeyDown(event: KeyboardEvent) {
             if (event.key === "Escape") {
@@ -51,10 +44,7 @@ export default function CurriculumViewer({
 
         return () => {
             document.body.style.overflow = "";
-            window.removeEventListener(
-                "keydown",
-                handleKeyDown,
-            );
+            window.removeEventListener("keydown", handleKeyDown);
         };
     }, [expanded]);
 
@@ -65,7 +55,7 @@ export default function CurriculumViewer({
         >
             <div className={styles.toolbar}>
                 <div className={styles.document}>
-                    <span>
+                    <span className={styles.documentIcon}>
                         <FileText size={21} />
                     </span>
 
@@ -77,25 +67,17 @@ export default function CurriculumViewer({
 
                 <div className={styles.actions}>
                     {expanded && (
-                        <Link
-                            className={styles.homeButton}
-                            href="/"
-                        >
+                        <Link className={styles.homeButton} href="/">
                             <Home size={17} />
                             Início
                         </Link>
                     )}
 
                     <button
-                        className={
-                            expanded
-                                ? styles.closeButton
-                                : undefined
-                        }
+                        className={`${styles.actionButton} ${styles.expandButton
+                            } ${expanded ? styles.closeButton : ""}`}
                         type="button"
-                        onClick={() =>
-                            setExpanded((current) => !current)
-                        }
+                        onClick={() => setExpanded((current) => !current)}
                     >
                         {expanded ? (
                             <>
@@ -111,6 +93,7 @@ export default function CurriculumViewer({
                     </button>
 
                     <a
+                        className={`${styles.actionButton} ${styles.openButton}`}
                         href={curriculumUrl}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -120,7 +103,7 @@ export default function CurriculumViewer({
                     </a>
 
                     <a
-                        className={styles.downloadButton}
+                        className={`${styles.actionButton} ${styles.downloadButton}`}
                         href={curriculumUrl}
                         download
                     >
@@ -148,28 +131,40 @@ export default function CurriculumViewer({
                     title={`Currículo de ${professionalName}`}
                 />
 
-                <div className={styles.mobileFallback}>
-                    <span>
-                        <FileText size={32} />
+                <div className={styles.compactViewer}>
+                    <span className={styles.compactIcon}>
+                        <FileText size={30} />
                     </span>
 
-                    <strong>
-                        Visualize o currículo completo
-                    </strong>
+                    <div className={styles.compactText}>
+                        <strong>Visualize meu currículo</strong>
 
-                    <p>
-                        Em alguns celulares, o PDF precisa ser
-                        aberto em uma nova janela.
-                    </p>
+                        <p>
+                            Abra o documento completo em uma nova janela
+                            ou faça o download do arquivo.
+                        </p>
+                    </div>
 
-                    <a
-                        href={curriculumUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Abrir currículo
-                        <ExternalLink size={17} />
-                    </a>
+                    <div className={styles.compactActions}>
+                        <a
+                            className={styles.compactOpen}
+                            href={curriculumUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <ExternalLink size={17} />
+                            Abrir currículo
+                        </a>
+
+                        <a
+                            className={styles.compactDownload}
+                            href={curriculumUrl}
+                            download
+                        >
+                            <Download size={17} />
+                            Baixar PDF
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>

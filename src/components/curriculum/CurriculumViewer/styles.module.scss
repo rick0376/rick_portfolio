@@ -1,5 +1,3 @@
-// src/components/curriculum/CurriculumViewer/styles.module.scss
-
 .viewer {
     overflow: hidden;
     border: 1px solid #dce6f1;
@@ -11,134 +9,142 @@
 }
 
 .toolbar {
+    display: flex;
+    min-height: 68px;
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(65, 139, 235, 0.2);
     background:
         linear-gradient(135deg,
             rgba(238, 247, 255, 0.98),
             rgba(247, 249, 255, 0.98));
-    border-bottom: 1px solid rgba(65, 139, 235, 0.2);
     box-shadow:
         0 10px 30px rgba(22, 63, 112, 0.08),
         inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
 }
 
 .document {
     display: flex;
+    min-width: 0;
     align-items: center;
     gap: 10px;
 
-    >span {
-        display: grid;
-        width: 41px;
-        height: 41px;
-        border: 1px solid #d3e7fb;
-        border-radius: 11px;
-        background: #ecf7ff;
-        color: #087fec;
-        flex: 0 0 41px;
-        place-items: center;
-    }
-
     >div {
         display: grid;
+        min-width: 0;
         gap: 3px;
     }
 
     strong {
+        overflow: hidden;
         color: #102039;
         font-size: 12px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     small {
+        overflow: hidden;
         color: #7d8da2;
         font-size: 10px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }
 
 .documentIcon {
-    background: linear-gradient(145deg,
-            #e5f4ff,
-            #f0edff);
-    border-color: rgba(37, 143, 246, 0.24);
+    display: grid;
+    width: 41px;
+    height: 41px;
+    border: 1px solid rgba(37, 143, 246, 0.24);
+    border-radius: 11px;
+    background: linear-gradient(145deg, #e5f4ff, #f0edff);
     color: #168cf0;
+    flex: 0 0 41px;
+    place-items: center;
 }
 
 .actions {
     display: flex;
-    flex-wrap: wrap;
+    flex: none;
     align-items: center;
     justify-content: flex-end;
     gap: 8px;
+}
 
-    button,
-    a {
-        display: inline-flex;
-        min-height: 40px;
-        padding: 0 12px;
-        border: 1px solid #dbe5ef;
-        border-radius: 10px;
-        outline: none;
-        background: #ffffff;
-        color: #34465d;
-        cursor: pointer;
-        align-items: center;
-        justify-content: center;
-        gap: 7px;
-        font: inherit;
-        font-size: 11px;
-        font-weight: 750;
-        transition:
-            border-color 180ms ease,
-            box-shadow 180ms ease,
-            color 180ms ease,
-            background 180ms ease,
-            transform 180ms ease;
+.actionButton,
+.homeButton,
+.iconCloseButton {
+    display: inline-flex;
+    min-height: 40px;
+    padding: 0 12px;
+    border: 1px solid #dbe5ef;
+    border-radius: 10px;
+    outline: none;
+    background: #ffffff;
+    color: #34465d;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 750;
+    white-space: nowrap;
+    transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        color 180ms ease,
+        background 180ms ease,
+        transform 180ms ease;
 
-        &:hover {
-            border-color: #3b9df5;
-            color: #0879df;
-            box-shadow: 0 8px 20px rgba(19, 115, 214, 0.1);
-            transform: translateY(-2px);
-        }
+    &:hover {
+        border-color: #3b9df5;
+        color: #0879df;
+        box-shadow: 0 8px 20px rgba(19, 115, 214, 0.1);
+        transform: translateY(-2px);
     }
+}
 
-    .downloadButton {
+.downloadButton {
+    border-color: transparent;
+    background: linear-gradient(135deg, #1598ff, #086cde);
+    box-shadow: 0 10px 24px rgba(10, 112, 224, 0.2);
+    color: #ffffff;
+
+    &:hover {
         border-color: transparent;
-        background: linear-gradient(135deg,
-                #1598ff,
-                #086cde);
-        box-shadow: 0 10px 24px rgba(10, 112, 224, 0.2);
         color: #ffffff;
-
-        &:hover {
-            color: #ffffff;
-        }
+        box-shadow: 0 13px 28px rgba(10, 112, 224, 0.27);
     }
+}
 
-    .homeButton {
-        border-color: rgba(24, 139, 239, 0.2);
-        background: #edf7ff;
-        color: #087bdc;
+.homeButton {
+    border-color: rgba(24, 139, 239, 0.2);
+    background: #edf7ff;
+    color: #087bdc;
+}
+
+.closeButton {
+    border-color: #ffccd0;
+    background: #fff2f3;
+    color: #c52c37;
+
+    &:hover {
+        border-color: #e6505b;
+        background: #ffe8ea;
+        color: #a91e29;
     }
+}
 
-    .closeButton {
-        border-color: #ffccd0;
-        background: #fff2f3;
-        color: #c52c37;
-
-        &:hover {
-            border-color: #e6505b;
-            background: #ffe8ea;
-            color: #a91e29;
-        }
-    }
-
-    .iconCloseButton {
-        width: 40px;
-        padding: 0;
-        border-color: #ffccd0;
-        background: #fff2f3;
-        color: #c52c37;
-    }
+.iconCloseButton {
+    width: 40px;
+    padding: 0;
+    border-color: #ffccd0;
+    background: #fff2f3;
+    color: #c52c37;
 }
 
 .frame {
@@ -159,10 +165,11 @@
         width: 100%;
         height: 100%;
         border: 0;
+        background: #ffffff;
     }
 }
 
-.mobileFallback {
+.compactViewer {
     display: none;
 }
 
@@ -189,129 +196,132 @@
     }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
+    .viewer {
+        border-radius: 18px;
+    }
+
     .toolbar {
-        padding: 13px;
-        align-items: stretch;
-        flex-direction: column;
+        display: flex;
+        min-height: 64px;
+        padding: 11px 13px;
+        align-items: center;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .document {
+        min-width: 0;
+        flex: 1;
+
+        strong,
+        small {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 
     .actions {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        display: flex;
+        flex: none;
+        align-items: center;
+        gap: 7px;
+    }
 
-        button,
-        a {
-            padding: 0 8px;
-            font-size: 10px;
+    .expandButton {
+        display: none;
+    }
+
+    .actions .actionButton,
+    .actions .homeButton {
+        min-height: 39px;
+        padding: 0 10px;
+        font-size: 10px;
+    }
+
+    .frame {
+        display: block;
+        width: 100%;
+        height: 750px;
+        min-height: 750px;
+        padding: 0;
+        overflow: hidden;
+        background: #d9dfe7;
+
+        iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    }
+
+    .compactViewer {
+        display: none;
+    }
+}
+
+@media (max-width: 620px) {
+    .toolbar {
+        padding: 10px 12px;
+    }
+
+    .documentIcon {
+        width: 39px;
+        height: 39px;
+        flex-basis: 39px;
+    }
+
+    .document {
+        strong {
+            font-size: 11px;
+        }
+
+        small {
+            max-width: 150px;
+            font-size: 9px;
+        }
+    }
+
+    .openButton {
+        display: none;
+    }
+
+    .actions .downloadButton {
+        width: 40px;
+        min-width: 40px;
+        height: 40px;
+        padding: 0;
+        font-size: 0;
+        gap: 0;
+
+        svg {
+            width: 18px;
+            height: 18px;
         }
     }
 
     .frame {
-        height: 500px;
-        min-height: 500px;
-    }
+        height: 720px;
+        min-height: 720px;
 
-    .expanded {
-        .toolbar {
-            min-height: 128px;
-        }
-
-        .frame {
-            height: calc(100vh - 128px);
-        }
-
-        .actions {
-            grid-template-columns: repeat(5, minmax(0, 1fr));
+        iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
         }
     }
 }
 
-@media (max-width: 560px) {
-    .actions {
-        grid-template-columns: 1fr;
-
-        button,
-        a {
-            width: 100%;
-        }
+@media (max-width: 420px) {
+    .document small {
+        max-width: 120px;
     }
 
     .frame {
-        display: grid;
-        height: 340px;
-        min-height: 340px;
-        padding: 25px;
-        place-items: center;
-
-        iframe {
-            display: none;
-        }
-    }
-
-    .mobileFallback {
-        display: grid;
-        max-width: 290px;
-        color: #64758a;
-        justify-items: center;
-        gap: 10px;
-        text-align: center;
-
-        >span {
-            display: grid;
-            width: 65px;
-            height: 65px;
-            border: 1px solid #d0e6f9;
-            border-radius: 18px;
-            background: #ffffff;
-            color: #1189ee;
-            box-shadow: 0 12px 28px rgba(32, 94, 156, 0.1);
-            place-items: center;
-        }
-
-        strong {
-            color: #14243b;
-            font-size: 15px;
-        }
-
-        p {
-            margin: 0;
-            font-size: 11px;
-            line-height: 1.6;
-        }
-
-        a {
-            display: inline-flex;
-            min-height: 43px;
-            padding: 0 16px;
-            border-radius: 10px;
-            background: #087deb;
-            color: #ffffff;
-            align-items: center;
-            gap: 8px;
-            font-size: 11px;
-            font-weight: 800;
-        }
-    }
-
-    .expanded {
-        overflow-y: auto;
-
-        .toolbar {
-            min-height: auto;
-        }
-
-        .actions {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-
-            .downloadButton {
-                grid-column: 1 / -1;
-            }
-        }
-
-        .frame {
-            height: calc(100vh - 280px);
-            min-height: 330px;
-        }
+        height: 680px;
+        min-height: 680px;
     }
 }
