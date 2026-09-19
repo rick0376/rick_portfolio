@@ -131,41 +131,6 @@ export default function CurriculumViewer({
                     title={`Currículo de ${professionalName}`}
                 />
 
-                <div className={styles.compactViewer}>
-                    <span className={styles.compactIcon}>
-                        <FileText size={30} />
-                    </span>
-
-                    <div className={styles.compactText}>
-                        <strong>Visualize meu currículo</strong>
-
-                        <p>
-                            Abra o documento completo em uma nova janela
-                            ou faça o download do arquivo.
-                        </p>
-                    </div>
-
-                    <div className={styles.compactActions}>
-                        <a
-                            className={styles.compactOpen}
-                            href={curriculumUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <ExternalLink size={17} />
-                            Abrir currículo
-                        </a>
-
-                        <a
-                            className={styles.compactDownload}
-                            href={curriculumUrl}
-                            download
-                        >
-                            <Download size={17} />
-                            Baixar PDF
-                        </a>
-                    </div>
-                </div>
             </div>
         </section>
     );
