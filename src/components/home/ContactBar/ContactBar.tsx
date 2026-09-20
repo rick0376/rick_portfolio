@@ -19,6 +19,7 @@ import styles from "./styles.module.scss";
 
 export default async function ContactBar() {
     const settings = await getSiteSettings();
+
     const whatsappUrl = createWhatsAppUrl(
         settings.whatsapp,
     );
@@ -33,6 +34,7 @@ export default async function ContactBar() {
                 variant: "email",
             }
             : null,
+
         whatsappUrl && settings.whatsapp
             ? {
                 icon: MessageCircle,
@@ -42,15 +44,20 @@ export default async function ContactBar() {
                 variant: "whatsapp",
             }
             : null,
+
         settings.phone
             ? {
                 icon: Phone,
                 label: "Telefone",
                 value: settings.phone,
-                href: `tel:${settings.phone.replace(/\D/g, "")}`,
+                href: `tel:${settings.phone.replace(
+                    /\D/g,
+                    "",
+                )}`,
                 variant: "phone",
             }
             : null,
+
         settings.linkedinUrl
             ? {
                 icon: Linkedin,
@@ -62,6 +69,7 @@ export default async function ContactBar() {
                 variant: "linkedin",
             }
             : null,
+
         settings.githubUrl
             ? {
                 icon: Github,
@@ -73,6 +81,7 @@ export default async function ContactBar() {
                 variant: "github",
             }
             : null,
+
         settings.location
             ? {
                 icon: MapPin,
@@ -94,35 +103,39 @@ export default async function ContactBar() {
     }
 
     return (
-        <div
-            className={styles.contactBar}
-            style={{
-                gridTemplateColumns: `repeat(${Math.min(
-                    contacts.length,
-                    5,
-                )}, minmax(0, 1fr))`,
-            }}
-        >
+        <div className={styles.contactBar}>
             {contacts.map(
-                ({ icon: Icon, label, value, href, variant }) => {
-                    const isExternal = href.startsWith("http");
+                ({
+                    icon: Icon,
+                    label,
+                    value,
+                    href,
+                    variant,
+                }) => {
+                    const isExternal =
+                        href.startsWith("http");
 
                     return (
                         <a
-                            className={`${styles.contactItem} ${styles[variant]
-                                }`}
+                            className={`${styles.contactItem} ${styles[variant]}`}
                             href={href}
                             key={label}
-                            target={isExternal ? "_blank" : undefined}
+                            target={
+                                isExternal ? "_blank" : undefined
+                            }
                             rel={
                                 isExternal
                                     ? "noopener noreferrer"
                                     : undefined
                             }
                             aria-label={`${label}: ${value}`}
+                            title={`${label}: ${value}`}
                         >
                             <span className={styles.iconBox}>
-                                <Icon size={20} strokeWidth={2} />
+                                <Icon
+                                    size={19}
+                                    strokeWidth={1.9}
+                                />
                             </span>
 
                             <span className={styles.information}>

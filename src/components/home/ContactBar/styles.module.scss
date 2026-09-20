@@ -2,45 +2,82 @@
 
 .contactBar {
     display: grid;
-    min-height: 72px;
-    border-top: 1px solid rgba(133, 165, 230, 0.24);
-    align-items: center;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 12px;
+    min-height: 84px;
+    padding: 14px 0;
+    border-top: 1px solid rgba(133, 165, 230, 0.2);
+    grid-template-columns:
+        repeat(auto-fit, minmax(165px, 1fr));
+    gap: 10px;
 }
 
 .contactItem {
+    position: relative;
     display: flex;
     min-width: 0;
-    padding: 9px 10px;
-    border: 1px solid transparent;
-    border-radius: 11px;
+    min-height: 57px;
+    padding: 8px 10px;
+    overflow: hidden;
+    border: 1px solid rgba(112, 155, 230, 0.14);
+    border-radius: 13px;
+    background:
+        linear-gradient(145deg,
+            rgba(31, 65, 121, 0.34),
+            rgba(10, 31, 66, 0.38));
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.05),
+        0 9px 25px rgba(0, 0, 0, 0.1);
     color: #d4def0;
     align-items: center;
     gap: 10px;
+    backdrop-filter: blur(10px);
     transition:
         color 180ms ease,
         border-color 180ms ease,
         background 180ms ease,
+        box-shadow 180ms ease,
         transform 180ms ease;
 
+    &::after {
+        position: absolute;
+        right: -25px;
+        bottom: -35px;
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        background: var(--contact-glow);
+        content: "";
+        filter: blur(25px);
+        pointer-events: none;
+    }
+
     &:hover {
-        border-color: rgba(117, 158, 241, 0.22);
+        border-color: var(--contact-border);
+        background:
+            linear-gradient(145deg,
+                rgba(38, 82, 151, 0.48),
+                rgba(12, 39, 82, 0.48));
+        box-shadow:
+            0 13px 28px rgba(0, 0, 0, 0.16),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08);
         color: #ffffff;
-        background: rgba(255, 255, 255, 0.05);
-        transform: translateY(-2px);
+        transform: translateY(-3px);
     }
 }
 
 .iconBox {
+    position: relative;
+    z-index: 1;
     display: grid;
     width: 38px;
     height: 38px;
     flex: 0 0 38px;
-    border: 1px solid rgba(114, 152, 229, 0.22);
-    border-radius: 10px;
-    background: rgba(30, 59, 111, 0.42);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+    border: 1px solid var(--contact-border);
+    border-radius: 11px;
+    background: var(--contact-background);
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    color: var(--contact-color);
     place-items: center;
     transition:
         transform 180ms ease,
@@ -48,114 +85,141 @@
 }
 
 .contactItem:hover .iconBox {
+    box-shadow:
+        0 10px 26px var(--contact-shadow);
     transform: scale(1.06);
 }
 
 .information {
+    position: relative;
+    z-index: 1;
     display: grid;
     min-width: 0;
+    flex: 1;
     gap: 3px;
 
     small {
-        color: #7e91b6;
+        overflow: hidden;
+        color: #8198bd;
         font-size: 9px;
-        font-weight: 800;
-        letter-spacing: 0.8px;
+        font-weight: 850;
+        letter-spacing: 0.9px;
+        text-overflow: ellipsis;
         text-transform: uppercase;
+        white-space: nowrap;
     }
 
     strong {
+        display: block;
+        min-width: 0;
         overflow: hidden;
+        color: #dde8f8;
         font-size: 11px;
-        font-weight: 600;
+        font-weight: 650;
+        line-height: 1.3;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
 }
 
 .email {
-    .iconBox {
-        color: #77a2ff;
-    }
-
-    &:hover .iconBox {
-        box-shadow: 0 8px 24px rgba(83, 132, 255, 0.25);
-    }
+    --contact-color: #77a2ff;
+    --contact-border: rgba(105, 152, 255, 0.32);
+    --contact-background: rgba(73, 119, 231, 0.12);
+    --contact-shadow: rgba(83, 132, 255, 0.25);
+    --contact-glow: rgba(70, 116, 245, 0.18);
 }
 
 .whatsapp {
-    .iconBox {
-        color: #32e58c;
-    }
-
-    &:hover .iconBox {
-        box-shadow: 0 8px 24px rgba(50, 229, 140, 0.2);
-    }
-}
-
-.linkedin {
-    .iconBox {
-        color: #63a6ff;
-    }
-
-    &:hover .iconBox {
-        box-shadow: 0 8px 24px rgba(50, 124, 255, 0.23);
-    }
-}
-
-.github {
-    .iconBox {
-        color: #e3e9f5;
-    }
-
-    &:hover .iconBox {
-        box-shadow: 0 8px 24px rgba(218, 228, 248, 0.15);
-    }
-}
-
-.location {
-    .iconBox {
-        color: #7b86ff;
-    }
-
-    &:hover .iconBox {
-        box-shadow: 0 8px 24px rgba(96, 102, 255, 0.24);
-    }
+    --contact-color: #32e58c;
+    --contact-border: rgba(50, 229, 140, 0.3);
+    --contact-background: rgba(35, 192, 106, 0.1);
+    --contact-shadow: rgba(50, 229, 140, 0.22);
+    --contact-glow: rgba(44, 221, 130, 0.16);
 }
 
 .phone {
-    .iconBox {
-        color: #53d7ff;
-    }
+    --contact-color: #53d7ff;
+    --contact-border: rgba(83, 215, 255, 0.3);
+    --contact-background: rgba(46, 172, 222, 0.1);
+    --contact-shadow: rgba(83, 215, 255, 0.22);
+    --contact-glow: rgba(64, 201, 255, 0.16);
+}
 
-    &:hover .iconBox {
-        box-shadow: 0 8px 24px rgba(83, 215, 255, 0.22);
-    }
+.linkedin {
+    --contact-color: #63a6ff;
+    --contact-border: rgba(70, 140, 255, 0.3);
+    --contact-background: rgba(46, 111, 220, 0.11);
+    --contact-shadow: rgba(50, 124, 255, 0.23);
+    --contact-glow: rgba(51, 119, 255, 0.16);
+}
+
+.github {
+    --contact-color: #e3e9f5;
+    --contact-border: rgba(218, 228, 248, 0.22);
+    --contact-background: rgba(218, 228, 248, 0.07);
+    --contact-shadow: rgba(218, 228, 248, 0.15);
+    --contact-glow: rgba(210, 226, 255, 0.1);
+}
+
+.location {
+    --contact-color: #9b91ff;
+    --contact-border: rgba(132, 119, 255, 0.3);
+    --contact-background: rgba(114, 91, 244, 0.11);
+    --contact-shadow: rgba(96, 102, 255, 0.24);
+    --contact-glow: rgba(121, 92, 255, 0.16);
 }
 
 @media (max-width: 1050px) {
     .contactBar {
-        padding: 14px 0;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
     }
 }
 
 @media (max-width: 680px) {
     .contactBar {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        min-height: auto;
+        padding: 16px 0 20px;
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+        gap: 9px;
+    }
+
+    .contactItem {
+        min-height: 59px;
+        padding: 9px;
+    }
+
+    .iconBox {
+        width: 37px;
+        height: 37px;
+        flex-basis: 37px;
+    }
+
+    .information {
+        small {
+            font-size: 8px;
+            letter-spacing: 0.65px;
+        }
+
+        strong {
+            font-size: 10px;
+        }
     }
 }
 
-@media (max-width: 460px) {
+@media (max-width: 360px) {
     .contactBar {
         grid-template-columns: 1fr;
     }
 
     .contactItem {
-        padding: 8px;
+        min-height: 57px;
+        padding: 8px 10px;
     }
 
     .information strong {
-        font-size: 12px;
+        font-size: 11px;
     }
 }
