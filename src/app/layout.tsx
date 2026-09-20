@@ -22,7 +22,7 @@ const siteUrl =
   "https://www.rickpereira.com.br";
 
 const defaultSocialImage =
-  "/images/social/portfolio-cover.png";
+  "/images/social/portfolio-cover.png?v=4";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
