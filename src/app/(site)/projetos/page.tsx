@@ -20,7 +20,7 @@ import styles from "./styles.module.scss";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-    title: "Projetos | Luis Henrique Pereira",
+    title: "Projetos",
     description:
         "Projetos de sistemas web, aplicativos, dashboards e soluções digitais desenvolvidos por Luis Henrique Pereira.",
 };
@@ -92,8 +92,8 @@ export default async function ProjectsPage() {
             },
         });
 
-    const projects: Project[] =
-        databaseProjects.map((project) => ({
+    const projects: Project[] = databaseProjects.map(
+        (project) => ({
             id: project.id,
             slug: project.slug,
             title: project.title,
@@ -102,22 +102,19 @@ export default async function ProjectsPage() {
             category:
                 project.category?.name ||
                 getTypeLabel(project.type),
-            technologies:
-                project.technologies.map(
-                    ({ technology }) =>
-                        technology.name,
-                ),
+            technologies: project.technologies.map(
+                ({ technology }) => technology.name,
+            ),
             accent: getAccent(project.type),
             status: getTypeLabel(project.type),
             type: project.type as ProjectType,
             featured: project.featured,
-            coverImageUrl:
-                project.coverImageUrl,
-            coverImagePublicId:
-                project.coverPublicId,
+            coverImageUrl: project.coverImageUrl,
+            coverImagePublicId: project.coverPublicId,
             projectUrl: project.projectUrl,
             githubUrl: project.githubUrl,
-        }));
+        }),
+    );
 
     return (
         <main className={styles.page}>
@@ -125,50 +122,34 @@ export default async function ProjectsPage() {
                 <div className={styles.glow} />
 
                 <div className={styles.container}>
-                    <Link
-                        className={styles.backLink}
-                        href="/"
-                    >
-                        <ArrowLeft size={17} />
+                    <Link className={styles.backLink} href="/">
+                        <ArrowLeft size={16} />
                         Voltar ao início
                     </Link>
 
                     <div className={styles.heroContent}>
-                        <div>
-                            <span
-                                className={
-                                    styles.eyebrow
-                                }
-                            >
-                                <Sparkles size={14} />
+                        <div className={styles.presentation}>
+                            <span className={styles.eyebrow}>
+                                <Sparkles size={13} />
                                 Portfólio profissional
                             </span>
 
-                            <h1>
-                                Projetos e soluções
-                                digitais.
-                            </h1>
+                            <h1>Projetos e soluções digitais</h1>
 
                             <p>
-                                Conheça os sistemas,
-                                aplicativos, sites e
-                                dashboards desenvolvidos
-                                para transformar ideias em
-                                resultados reais.
+                                Conheça os sistemas, aplicativos, sites e
+                                dashboards desenvolvidos para transformar
+                                ideias em resultados reais.
                             </p>
                         </div>
 
                         <div className={styles.summary}>
-                            <span>
-                                <BriefcaseBusiness
-                                    size={22}
-                                />
+                            <span className={styles.summaryIcon}>
+                                <BriefcaseBusiness size={19} />
                             </span>
 
                             <div>
-                                <strong>
-                                    {projects.length}
-                                </strong>
+                                <strong>{projects.length}</strong>
 
                                 <small>
                                     {projects.length === 1
@@ -183,9 +164,7 @@ export default async function ProjectsPage() {
 
             <section className={styles.content}>
                 <div className={styles.container}>
-                    <ProjectCatalog
-                        projects={projects}
-                    />
+                    <ProjectCatalog projects={projects} />
                 </div>
             </section>
         </main>
