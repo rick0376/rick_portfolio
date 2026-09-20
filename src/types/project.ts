@@ -5,6 +5,15 @@ export type ProjectAccent =
   | "cyan"
   | "violet";
 
+export type ProjectType =
+  | "NEXT_JS"
+  | "REACT_NATIVE"
+  | "POWER_BI"
+  | "WEBSITE"
+  | "DASHBOARD"
+  | "MOBILE"
+  | "OTHER";
+
 export type ProjectImage = {
   id: string;
   imageUrl: string;
@@ -23,6 +32,8 @@ export type Project = {
   technologies: string[];
   accent: ProjectAccent;
   status: string;
+  type?: ProjectType;
+  featured?: boolean;
   coverImageUrl: string | null;
   coverImagePublicId?: string | null;
   projectUrl?: string | null;

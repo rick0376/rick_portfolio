@@ -32,10 +32,23 @@ export default function ProjectCard({
     project.slug as keyof typeof projectIcons
     ] ?? ImageIcon;
 
+  const isPowerBi =
+    project.type === "POWER_BI" ||
+    project.type === "DASHBOARD";
+
   const showCategory =
     Boolean(project.category) &&
     project.category.toLowerCase() !==
     project.status.toLowerCase();
+
+  const projectLabel = isPowerBi
+    ? "Análise de dados"
+    : project.type === "WEBSITE"
+      ? "Presença digital"
+      : project.type === "REACT_NATIVE" ||
+        project.type === "MOBILE"
+        ? "Aplicativo mobile"
+        : "Solução digital";
 
   return (
     <article className={styles.card}>
@@ -45,71 +58,121 @@ export default function ProjectCard({
         aria-label={`Ver detalhes do projeto ${project.title}`}
       >
         <div
-          className={`${styles.cover} ${styles[project.accent]}`}
+          className={`${styles.cover} ${styles[project.accent]
+            }`}
         >
           {project.coverImageUrl ? (
             <Image
-              className={styles.coverImage}
+              className={
+                styles.coverImage
+              }
               src={project.coverImageUrl}
               alt={`Imagem de capa do projeto ${project.title}`}
               fill
-              sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 520px"
+              sizes="(max-width: 680px) 100vw, (max-width: 980px) 50vw, 390px"
             />
           ) : (
-            <div className={styles.placeholder}>
-              <div className={styles.browserBar}>
+            <div
+              className={
+                styles.placeholder
+              }
+            >
+              <div
+                className={
+                  styles.browserBar
+                }
+              >
                 <i />
                 <i />
                 <i />
-                <span>{project.status}</span>
+                <span>
+                  {project.status}
+                </span>
               </div>
 
-              <div className={styles.preview}>
-                <div className={styles.previewSide}>
+              <div
+                className={
+                  styles.preview
+                }
+              >
+                <div
+                  className={
+                    styles.previewSide
+                  }
+                >
                   <Icon size={22} />
                   <span />
                   <span />
                   <span />
                 </div>
 
-                <div className={styles.previewMain}>
-                  <div className={styles.previewTop}>
+                <div
+                  className={
+                    styles.previewMain
+                  }
+                >
+                  <div
+                    className={
+                      styles.previewTop
+                    }
+                  >
                     <span />
                     <span />
                   </div>
 
-                  <div className={styles.previewChart}>
+                  <div
+                    className={
+                      styles.previewChart
+                    }
+                  >
                     <i />
                     <i />
                     <i />
                     <i />
                     <i />
-                  </div>
-
-                  <div className={styles.previewCards}>
-                    <span />
-                    <span />
-                    <span />
                   </div>
                 </div>
               </div>
             </div>
           )}
 
-          <div className={styles.coverOverlay} />
+          <div
+            className={styles.coverOverlay}
+          />
 
-          <span className={styles.featured}>
-            <Sparkles size={13} />
-            Projeto em destaque
-          </span>
+          {project.featured && (
+            <span
+              className={
+                styles.featured
+              }
+            >
+              <Sparkles size={12} />
+              Projeto em destaque
+            </span>
+          )}
 
-          <div className={styles.coverLabels}>
-            <span className={styles.status}>
-              {project.status}
+          <div
+            className={
+              styles.coverLabels
+            }
+          >
+            <span
+              className={`${styles.status} ${isPowerBi
+                  ? styles.powerBiStatus
+                  : ""
+                }`}
+            >
+              {isPowerBi
+                ? "Power BI"
+                : project.status}
             </span>
 
             {showCategory && (
-              <span className={styles.category}>
+              <span
+                className={
+                  styles.category
+                }
+              >
                 {project.category}
               </span>
             )}
@@ -119,34 +182,50 @@ export default function ProjectCard({
         <div className={styles.content}>
           <div className={styles.titleRow}>
             <div>
-              <span className={styles.projectLabel}>
-                Solução digital
+              <span
+                className={
+                  styles.projectLabel
+                }
+              >
+                {projectLabel}
               </span>
 
               <h3>{project.title}</h3>
             </div>
 
-            <span className={styles.openButton}>
-              <ArrowUpRight size={20} />
+            <span
+              className={
+                styles.openButton
+              }
+            >
+              <ArrowUpRight size={19} />
             </span>
           </div>
 
-          <p>{project.summary}</p>
+          <p className={styles.summary}>
+            {project.summary}
+          </p>
 
           <div className={styles.footer}>
             <div className={styles.tags}>
-              {project.technologies.map(
-                (technology) => (
-                  <span key={technology}>
+              {project.technologies
+                .slice(0, 3)
+                .map((technology) => (
+                  <span
+                    key={technology}
+                  >
                     {technology}
                   </span>
-                ),
-              )}
+                ))}
             </div>
 
-            <span className={styles.viewProject}>
-              Conhecer projeto
-              <ArrowUpRight size={16} />
+            <span
+              className={
+                styles.viewProject
+              }
+            >
+              Ver projeto
+              <ArrowUpRight size={15} />
             </span>
           </div>
         </div>

@@ -2,71 +2,66 @@
 
 "use client";
 
-import {
-  Menu,
-  Moon,
-  Send,
-  X,
-} from "lucide-react";
-import {
-  useEffect,
-  useState,
-} from "react";
+import { Menu, Moon, Send, X } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+
 import styles from "./styles.module.scss";
 
 const links = [
   {
     label: "Início",
-    href: "#inicio",
+    href: "/#inicio",
     section: "inicio",
   },
   {
     label: "Sobre",
-    href: "#sobre",
+    href: "/#sobre",
     section: "sobre",
   },
   {
     label: "Projetos",
-    href: "#projetos",
+    href: "/#projetos",
     section: "projetos",
   },
   {
     label: "Habilidades",
-    href: "#habilidades",
+    href: "/#habilidades",
     section: "habilidades",
   },
   {
     label: "Contato",
-    href: "#contato",
+    href: "/#contato",
     section: "contato",
   },
 ];
 
 export default function Header() {
-  const [menuOpen, setMenuOpen] =
-    useState(false);
+  const pathname = usePathname();
 
-  const [scrolled, setScrolled] =
-    useState(false);
-
-  const [activeSection, setActiveSection] =
-    useState("inicio");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("inicio");
 
   useEffect(() => {
     function handleScroll() {
       setScrolled(window.scrollY > 20);
 
+      if (pathname !== "/") {
+        if (pathname.startsWith("/projetos")) {
+          setActiveSection("projetos");
+        } else {
+          setActiveSection("");
+        }
+
+        return;
+      }
+
       const sections = links
-        .map((link) =>
-          document.getElementById(
-            link.section,
-          ),
-        )
+        .map((link) => document.getElementById(link.section))
         .filter(
-          (
-            section,
-          ): section is HTMLElement =>
-            Boolean(section),
+          (section): section is HTMLElement => Boolean(section),
         );
 
       const currentSection =
@@ -74,38 +69,27 @@ export default function Header() {
           .reverse()
           .find(
             (section) =>
-              section.getBoundingClientRect()
-                .top <= 150,
+              section.getBoundingClientRect().top <= 150,
           ) || sections[0];
 
       if (currentSection) {
-        setActiveSection(
-          currentSection.id,
-        );
+        setActiveSection(currentSection.id);
       }
     }
 
     handleScroll();
 
-    window.addEventListener(
-      "scroll",
-      handleScroll,
-      {
-        passive: true,
-      },
-    );
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
 
     return () => {
-      window.removeEventListener(
-        "scroll",
-        handleScroll,
-      );
+      window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
-    document.body.style.overflow =
-      menuOpen ? "hidden" : "";
+    document.body.style.overflow = menuOpen ? "hidden" : "";
 
     return () => {
       document.body.style.overflow = "";
@@ -113,24 +97,16 @@ export default function Header() {
   }, [menuOpen]);
 
   useEffect(() => {
-    function handleEscape(
-      event: KeyboardEvent,
-    ) {
+    function handleEscape(event: KeyboardEvent) {
       if (event.key === "Escape") {
         setMenuOpen(false);
       }
     }
 
-    document.addEventListener(
-      "keydown",
-      handleEscape,
-    );
+    document.addEventListener("keydown", handleEscape);
 
     return () => {
-      document.removeEventListener(
-        "keydown",
-        handleEscape,
-      );
+      document.removeEventListener("keydown", handleEscape);
     };
   }, []);
 
@@ -147,121 +123,81 @@ export default function Header() {
       <div className={styles.headerGlow} />
 
       <div className={styles.inner}>
-        <a
+        <Link
           className={styles.brand}
-          href="#inicio"
-          onClick={() =>
-            closeMenu("inicio")
-          }
-          aria-label="Ir para o início"
+          href="/#inicio"
+          onClick={() => closeMenu("inicio")}
+          aria-label="Voltar para a página principal"
         >
-          <span
-            className={styles.initialsBox}
-          >
-            <strong
-              className={styles.initials}
-            >
-              LHP
-            </strong>
+          <span className={styles.initialsBox}>
+            <strong className={styles.initials}>LHP</strong>
           </span>
 
-          <span
-            className={styles.brandText}
-          >
-            <strong>
-              Luis Henrique Pereira
-            </strong>
+          <span className={styles.brandText}>
+            <strong>Luis Henrique Pereira</strong>
 
-            <small>
-              Desenvolvimento que gera
-              resultados
-            </small>
+            <small>Desenvolvimento que gera resultados</small>
           </span>
-        </a>
+        </Link>
 
         <nav
-          className={`${styles.navigation} ${menuOpen
-              ? styles.navigationOpen
-              : ""
+          className={`${styles.navigation} ${menuOpen ? styles.navigationOpen : ""
             }`}
           aria-label="Navegação principal"
         >
           {links.map((link) => (
-            <a
+            <Link
               className={
-                activeSection ===
-                  link.section
+                activeSection === link.section
                   ? styles.activeLink
                   : undefined
               }
-              key={link.href}
+              key={link.section}
               href={link.href}
-              onClick={() =>
-                closeMenu(link.section)
-              }
+              onClick={() => closeMenu(link.section)}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
 
-          <a
-            className={
-              styles.mobileContact
-            }
-            href="#contato"
-            onClick={() =>
-              closeMenu("contato")
-            }
+          <Link
+            className={styles.mobileContact}
+            href="/#contato"
+            onClick={() => closeMenu("contato")}
           >
             Vamos conversar
             <Send size={17} />
-          </a>
+          </Link>
         </nav>
 
         <div className={styles.actions}>
           <button
-            className={
-              styles.themeButton
-            }
+            className={styles.themeButton}
             type="button"
             aria-label="Alterar tema"
           >
             <Moon size={18} />
           </button>
 
-          <a
-            className={
-              styles.contactButton
-            }
-            href="#contato"
-            onClick={() =>
-              setActiveSection("contato")
-            }
+          <Link
+            className={styles.contactButton}
+            href="/#contato"
+            onClick={() => closeMenu("contato")}
           >
             <span>Vamos conversar</span>
             <Send size={16} />
-          </a>
+          </Link>
 
           <button
             className={styles.menuButton}
             type="button"
             onClick={() =>
-              setMenuOpen(
-                (current) => !current,
-              )
+              setMenuOpen((currentMenuOpen) => !currentMenuOpen)
             }
             aria-expanded={menuOpen}
-            aria-label={
-              menuOpen
-                ? "Fechar menu"
-                : "Abrir menu"
-            }
+            aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
           >
-            {menuOpen ? (
-              <X size={22} />
-            ) : (
-              <Menu size={22} />
-            )}
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>

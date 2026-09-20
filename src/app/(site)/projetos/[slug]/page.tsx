@@ -2,13 +2,7 @@
 
 import ProjectGallery from "@/components/projects/ProjectGallery/ProjectGallery";
 import { prisma } from "@/lib/prisma";
-import {
-    ArrowLeft,
-    ArrowUpRight,
-    Home,
-    Github,
-    Layers3,
-} from "lucide-react";
+import { ArrowUpRight, Github, Home, Layers3 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -27,8 +21,7 @@ const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
     "http://localhost:3000";
 
-const defaultSocialImage =
-    "/images/profile/luis-henrique.png";
+const defaultSocialImage = "/images/profile/luis-henrique.png";
 
 const typeLabels: Record<string, string> = {
     NEXT_JS: "Next.js",
@@ -61,8 +54,7 @@ export async function generateMetadata({
     if (!project) {
         return {
             title: "Projeto não encontrado",
-            description:
-                "O projeto solicitado não foi encontrado.",
+            description: "O projeto solicitado não foi encontrado.",
             robots: {
                 index: false,
                 follow: false,
@@ -71,18 +63,14 @@ export async function generateMetadata({
     }
 
     const projectUrl = `${siteUrl}/projetos/${slug}`;
-
-    const socialImage =
-        project.coverImageUrl || defaultSocialImage;
+    const socialImage = project.coverImageUrl || defaultSocialImage;
 
     return {
         title: project.title,
         description: project.shortDescription,
-
         alternates: {
             canonical: projectUrl,
         },
-
         openGraph: {
             type: "article",
             locale: "pt_BR",
@@ -101,7 +89,6 @@ export async function generateMetadata({
                 },
             ],
         },
-
         twitter: {
             card: "summary_large_image",
             title: project.title,
@@ -113,7 +100,6 @@ export async function generateMetadata({
                 },
             ],
         },
-
         robots: {
             index: true,
             follow: true,
@@ -164,8 +150,14 @@ export default async function ProjectDetailsPage({
         notFound();
     }
 
-    const typeLabel =
-        typeLabels[project.type] || "Projeto";
+    const typeLabel = typeLabels[project.type] || "Projeto";
+
+    const isPowerBi =
+        project.type === "POWER_BI" || project.type === "DASHBOARD";
+
+    const projectButtonLabel = isPowerBi
+        ? "Abrir Dashboard no Power BI"
+        : "Acessar projeto";
 
     return (
         <main className={styles.page}>
@@ -173,47 +165,36 @@ export default async function ProjectDetailsPage({
                 <div className={styles.heroGlow} />
 
                 <div className={styles.container}>
-                    <Link
-                        className={styles.backLink}
-                        href="/"
-                    >
-                        <Home size={17} />
+                    <Link className={styles.backLink} href="/">
+                        <Home size={16} />
                         Voltar para a página inicial
                     </Link>
 
                     <div className={styles.heroContent}>
-                        <div>
-                            <span className={styles.eyebrow}>
-                                {typeLabel}
-                            </span>
+                        <div className={styles.heroText}>
+                            <span className={styles.eyebrow}>{typeLabel}</span>
 
                             <h1>{project.title}</h1>
 
-                            <p>
-                                {project.shortDescription}
-                            </p>
+                            <p>{project.shortDescription}</p>
                         </div>
 
                         <div className={styles.actions}>
                             {project.projectUrl && (
                                 <a
-                                    className={
-                                        styles.primaryButton
-                                    }
+                                    className={styles.primaryButton}
                                     href={project.projectUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    Acessar projeto
+                                    {projectButtonLabel}
                                     <ArrowUpRight size={18} />
                                 </a>
                             )}
 
                             {project.githubUrl && (
                                 <a
-                                    className={
-                                        styles.secondaryButton
-                                    }
+                                    className={styles.secondaryButton}
                                     href={project.githubUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
@@ -231,125 +212,62 @@ export default async function ProjectDetailsPage({
                 <div className={styles.container}>
                     <ProjectGallery
                         projectTitle={project.title}
-                        coverImageUrl={
-                            project.coverImageUrl
-                        }
-                        images={project.images.map(
-                            (image) => ({
-                                id: image.id,
-                                imageUrl: image.imageUrl,
-                                publicId: image.publicId,
-                                altText: image.altText,
-                                position: image.position,
-                            }),
-                        )}
+                        coverImageUrl={project.coverImageUrl}
+                        images={project.images.map((image) => ({
+                            id: image.id,
+                            imageUrl: image.imageUrl,
+                            publicId: image.publicId,
+                            altText: image.altText,
+                            position: image.position,
+                        }))}
                     />
 
                     <div className={styles.details}>
-                        <article
-                            className={styles.description}
-                        >
-                            <span
-                                className={
-                                    styles.sectionLabel
-                                }
-                            >
+                        <article className={styles.description}>
+                            <span className={styles.sectionLabel}>
                                 Sobre o projeto
                             </span>
 
-                            <h2>
-                                Uma solução criada para gerar
-                                resultados.
-                            </h2>
+                            <h2>Uma solução criada para gerar resultados.</h2>
 
                             {project.description
                                 .split("\n")
                                 .filter(Boolean)
-                                .map(
-                                    (
-                                        paragraph,
-                                        index,
-                                    ) => (
-                                        <p key={index}>
-                                            {paragraph}
-                                        </p>
-                                    ),
-                                )}
+                                .map((paragraph, index) => (
+                                    <p key={index}>{paragraph}</p>
+                                ))}
                         </article>
 
-                        <aside
-                            className={
-                                styles.information
-                            }
-                        >
-                            <div
-                                className={
-                                    styles.informationTitle
-                                }
-                            >
+                        <aside className={styles.information}>
+                            <div className={styles.informationTitle}>
                                 <Layers3 size={20} />
-                                <strong>
-                                    Informações
-                                </strong>
+                                <strong>Informações</strong>
                             </div>
 
-                            <div
-                                className={
-                                    styles.informationItem
-                                }
-                            >
+                            <div className={styles.informationItem}>
                                 <span>Categoria</span>
-
                                 <strong>
-                                    {project.category
-                                        ?.name ||
-                                        "Sem categoria"}
+                                    {project.category?.name || "Sem categoria"}
                                 </strong>
                             </div>
 
-                            <div
-                                className={
-                                    styles.informationItem
-                                }
-                            >
+                            <div className={styles.informationItem}>
                                 <span>Tipo</span>
-                                <strong>
-                                    {typeLabel}
-                                </strong>
+                                <strong>{typeLabel}</strong>
                             </div>
 
-                            <div
-                                className={
-                                    styles.technologies
-                                }
-                            >
-                                <span>
-                                    Tecnologias utilizadas
-                                </span>
+                            <div className={styles.technologies}>
+                                <span>Tecnologias utilizadas</span>
 
                                 <div>
-                                    {project
-                                        .technologies
-                                        .length > 0 ? (
-                                        project.technologies.map(
-                                            ({
-                                                technology,
-                                            }) => (
-                                                <strong
-                                                    key={
-                                                        technology.id
-                                                    }
-                                                >
-                                                    {
-                                                        technology.name
-                                                    }
-                                                </strong>
-                                            ),
-                                        )
+                                    {project.technologies.length > 0 ? (
+                                        project.technologies.map(({ technology }) => (
+                                            <strong key={technology.id}>
+                                                {technology.name}
+                                            </strong>
+                                        ))
                                     ) : (
-                                        <strong>
-                                            Não informado
-                                        </strong>
+                                        <strong>Não informado</strong>
                                     )}
                                 </div>
                             </div>

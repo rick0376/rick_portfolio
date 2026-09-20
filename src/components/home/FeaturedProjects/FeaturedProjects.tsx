@@ -1,11 +1,12 @@
 // src/components/home/FeaturedProjects/FeaturedProjects.tsx
 
-import ProjectCard from "@/components/projects/ProjectCard/ProjectCard";
+import ProjectCarousel from "@/components/home/FeaturedProjects/ProjectCarousel";
 import SectionHeading from "@/components/ui/SectionHeading/SectionHeading";
 import { prisma } from "@/lib/prisma";
 import type {
   Project,
   ProjectAccent,
+  ProjectType,
 } from "@/types/project";
 import {
   ArrowRight,
@@ -40,7 +41,7 @@ function getProjectTypeLabel(type: string) {
   const labels: Record<string, string> = {
     NEXT_JS: "Sistema web",
     REACT_NATIVE: "Aplicativo mobile",
-    POWER_BI: "Business intelligence",
+    POWER_BI: "Power BI",
     WEBSITE: "Website",
     DASHBOARD: "Dashboard",
     MOBILE: "Aplicativo mobile",
@@ -51,27 +52,27 @@ function getProjectTypeLabel(type: string) {
 }
 
 export default async function FeaturedProjects() {
-  /*
-   * Impede que a página principal seja gerada
-   * apenas durante o build da aplicação.
-   */
   await connection();
 
   const databaseProjects =
     await prisma.project.findMany({
       where: {
         status: "PUBLISHED",
-        featured: true,
       },
       orderBy: [
+        {
+          featured: "desc",
+        },
         {
           position: "asc",
         },
         {
           publishedAt: "desc",
         },
+        {
+          createdAt: "desc",
+        },
       ],
-      take: 6,
       include: {
         category: {
           select: {
@@ -102,11 +103,15 @@ export default async function FeaturedProjects() {
         getProjectTypeLabel(project.type),
       technologies:
         project.technologies.map(
-          ({ technology }) => technology.name,
+          ({ technology }) =>
+            technology.name,
         ),
       accent: getProjectAccent(project.type),
       status: getProjectTypeLabel(project.type),
-      coverImageUrl: project.coverImageUrl,
+      type: project.type as ProjectType,
+      featured: project.featured,
+      coverImageUrl:
+        project.coverImageUrl,
       coverImagePublicId:
         project.coverPublicId,
       projectUrl: project.projectUrl,
@@ -123,7 +128,7 @@ export default async function FeaturedProjects() {
           <SectionHeading
             eyebrow="Projetos em destaque"
             title="Soluções criadas para problemas reais."
-            description="Uma seleção de sistemas, aplicativos e dashboards que demonstram minha forma de unir tecnologia, organização e experiência de negócio."
+            description="Conheça sistemas, sites, aplicativos e dashboards desenvolvidos para unir tecnologia, organização e experiência de negócio."
           />
 
           <Link href="/projetos">
@@ -133,14 +138,7 @@ export default async function FeaturedProjects() {
         </div>
 
         {projects.length > 0 ? (
-          <div className={styles.grid}>
-            {projects.map((project) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-              />
-            ))}
-          </div>
+          <ProjectCarousel projects={projects} />
         ) : (
           <div className={styles.empty}>
             <span>

@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import type {
     Project,
     ProjectAccent,
+    ProjectType,
 } from "@/types/project";
 import {
     ArrowLeft,
@@ -13,20 +14,18 @@ import {
 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+
 import styles from "./styles.module.scss";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-    title:
-        "Projetos | Luis Henrique Pereira",
+    title: "Projetos | Luis Henrique Pereira",
     description:
         "Projetos de sistemas web, aplicativos, dashboards e soluções digitais desenvolvidos por Luis Henrique Pereira.",
 };
 
-function getAccent(
-    type: string,
-): ProjectAccent {
+function getAccent(type: string): ProjectAccent {
     if (
         type === "REACT_NATIVE" ||
         type === "MOBILE"
@@ -48,7 +47,7 @@ function getTypeLabel(type: string) {
     const labels: Record<string, string> = {
         NEXT_JS: "Sistema web",
         REACT_NATIVE: "Aplicativo mobile",
-        POWER_BI: "Business intelligence",
+        POWER_BI: "Power BI",
         WEBSITE: "Website",
         DASHBOARD: "Dashboard",
         MOBILE: "Aplicativo mobile",
@@ -70,6 +69,9 @@ export default async function ProjectsPage() {
                 },
                 {
                     publishedAt: "desc",
+                },
+                {
+                    createdAt: "desc",
                 },
             ],
             include: {
@@ -107,6 +109,8 @@ export default async function ProjectsPage() {
                 ),
             accent: getAccent(project.type),
             status: getTypeLabel(project.type),
+            type: project.type as ProjectType,
+            featured: project.featured,
             coverImageUrl:
                 project.coverImageUrl,
             coverImagePublicId:
@@ -132,21 +136,25 @@ export default async function ProjectsPage() {
                     <div className={styles.heroContent}>
                         <div>
                             <span
-                                className={styles.eyebrow}
+                                className={
+                                    styles.eyebrow
+                                }
                             >
                                 <Sparkles size={14} />
                                 Portfólio profissional
                             </span>
 
                             <h1>
-                                Projetos e soluções digitais.
+                                Projetos e soluções
+                                digitais.
                             </h1>
 
                             <p>
                                 Conheça os sistemas,
-                                aplicativos e dashboards
-                                desenvolvidos para transformar
-                                ideias em resultados reais.
+                                aplicativos, sites e
+                                dashboards desenvolvidos
+                                para transformar ideias em
+                                resultados reais.
                             </p>
                         </div>
 

@@ -1,50 +1,15 @@
 // src/app/api/categories/route.ts
 
-import { NextRequest, NextResponse } from "next/server";
-
 import { getCurrentAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { createSlug } from "@/lib/slug";
+import {
+    NextRequest,
+    NextResponse,
+} from "next/server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
-export async function GET() {
-    const admin = await getCurrentAdmin();
-
-    if (!admin) {
-        return NextResponse.json(
-            {
-                message: "Não autorizado.",
-            },
-            {
-                status: 401,
-            },
-        );
-    }
-
-    const categories = await prisma.category.findMany({
-        orderBy: [
-            {
-                position: "asc",
-            },
-            {
-                name: "asc",
-            },
-        ],
-        include: {
-            _count: {
-                select: {
-                    projects: true,
-                },
-            },
-        },
-    });
-
-    return NextResponse.json({
-        categories,
-    });
-}
 
 export async function POST(request: NextRequest) {
     const admin = await getCurrentAdmin();
@@ -61,20 +26,43 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-        const body = await request.json();
+        const body = (await request.json()) as Record<
+            string,
+            unknown
+        >;
 
-        const name = String(body.name ?? "").trim();
+        const name = String(body.name || "").trim();
         const description = String(
-            body.description ?? "",
+            body.description || "",
         ).trim();
-        const active = body.active !== false;
-        const position = Number(body.position ?? 0);
+
+        const positionValue = Number(body.position);
+        const position = Number.isFinite(positionValue)
+            ? Math.max(0, Math.trunc(positionValue))
+            : 0;
+
+        const active =
+            typeof body.active === "boolean"
+                ? body.active
+                : true;
 
         if (name.length < 2) {
             return NextResponse.json(
                 {
                     message:
-                        "O nome deve possuir pelo menos 2 caracteres.",
+                        "Informe um nome com pelo menos 2 caracteres.",
+                },
+                {
+                    status: 400,
+                },
+            );
+        }
+
+        if (description.length > 500) {
+            return NextResponse.json(
+                {
+                    message:
+                        "A descrição deve possuir no máximo 500 caracteres.",
                 },
                 {
                     status: 400,
@@ -83,17 +71,6 @@ export async function POST(request: NextRequest) {
         }
 
         const slug = createSlug(name);
-
-        if (!slug) {
-            return NextResponse.json(
-                {
-                    message: "Não foi possível gerar o slug.",
-                },
-                {
-                    status: 400,
-                },
-            );
-        }
 
         const existingCategory =
             await prisma.category.findUnique({
@@ -123,27 +100,48 @@ export async function POST(request: NextRequest) {
                 slug,
                 description: description || null,
                 active,
-                position: Number.isFinite(position)
-                    ? position
-                    : 0,
+                position,
+            },
+            include: {
+                _count: {
+                    select: {
+                        projects: true,
+                    },
+                },
             },
         });
 
         return NextResponse.json(
             {
-                message: "Categoria criada com sucesso.",
-                category,
+                message: "Categoria cadastrada com sucesso.",
+                category: {
+                    id: category.id,
+                    name: category.name,
+                    slug: category.slug,
+                    description: category.description,
+                    active: category.active,
+                    position: category.position,
+                    projectsCount: category._count.projects,
+                    createdAt:
+                        category.createdAt.toISOString(),
+                    updatedAt:
+                        category.updatedAt.toISOString(),
+                },
             },
             {
                 status: 201,
             },
         );
     } catch (error) {
-        console.error("Erro ao criar categoria:", error);
+        console.error(
+            "Erro ao cadastrar categoria:",
+            error,
+        );
 
         return NextResponse.json(
             {
-                message: "Não foi possível criar a categoria.",
+                message:
+                    "Não foi possível cadastrar a categoria.",
             },
             {
                 status: 500,
