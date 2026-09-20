@@ -19,7 +19,7 @@ const spaceGrotesk = Space_Grotesk({
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-  "http://localhost:3000";
+  "https://www.rickpereira.com.br";
 
 const defaultSocialImage =
   "/images/social/portfolio-cover.png";
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
   ],
 
   alternates: {
-    canonical: "/",
+    canonical: siteUrl,
   },
 
   icons: {
@@ -81,10 +81,11 @@ export const metadata: Metadata = {
       "Conheça meus projetos de sistemas web, aplicativos, dashboards e soluções digitais.",
     images: [
       {
-        url: defaultSocialImage,
-        width: 1254,
-        height: 1254,
-        alt: "Luis Henrique Pereira - Rick Pereira",
+        url: `${siteUrl}${defaultSocialImage}`,
+        width: 1200,
+        height: 630,
+        alt: "Luis Henrique Pereira — Portfólio Rick Pereira",
+        type: "image/png",
       },
     ],
   },
@@ -94,7 +95,7 @@ export const metadata: Metadata = {
     title: "Luis Henrique Pereira | Portfólio",
     description:
       "Conheça meus projetos de sistemas web, aplicativos, dashboards e soluções digitais.",
-    images: [defaultSocialImage],
+    images: [`${siteUrl}${defaultSocialImage}`],
   },
 
   robots: {
