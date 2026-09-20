@@ -24,6 +24,8 @@ const siteUrl =
 const defaultSocialImage =
   "/images/social/portfolio-cover.png?v=4";
 
+const socialImageUrl = `${siteUrl}${defaultSocialImage}`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
@@ -81,7 +83,8 @@ export const metadata: Metadata = {
       "Conheça meus projetos de sistemas web, aplicativos, dashboards e soluções digitais.",
     images: [
       {
-        url: `${siteUrl}${defaultSocialImage}`,
+        url: socialImageUrl,
+        secureUrl: socialImageUrl,
         width: 1200,
         height: 630,
         alt: "Luis Henrique Pereira — Portfólio Rick Pereira",
@@ -95,7 +98,12 @@ export const metadata: Metadata = {
     title: "Luis Henrique Pereira | Portfólio",
     description:
       "Conheça meus projetos de sistemas web, aplicativos, dashboards e soluções digitais.",
-    images: [`${siteUrl}${defaultSocialImage}`],
+    images: [
+      {
+        url: socialImageUrl,
+        alt: "Luis Henrique Pereira — Portfólio Rick Pereira",
+      },
+    ],
   },
 
   robots: {
