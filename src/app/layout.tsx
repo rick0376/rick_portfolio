@@ -28,6 +28,7 @@ const socialImageUrl = `${siteUrl}${defaultSocialImage}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  manifest: "/manifest.webmanifest",
 
   title: {
     default: "Luis Henrique Pereira | Portfólio",
